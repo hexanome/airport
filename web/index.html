@@ -9,3 +9,24 @@ Success.
 <script src=./js/jquery-1.6.2.min.js></script>
 <script src=./js/jquery-ui-1.8.16.custom.min.js></script>
 <script src=./js/scout.js></script>
+  <svg>
+    
+    <path d="M0 30 L100 30 L200 400" fill="white" stroke="black"/>
+    
+    <rect id="wagon" x="20" y="20" width="40" height="20" fill="green"/>
+    
+    <script>
+      var path = {
+        points: [[0,30], [100,30], [200,400]]
+      };
+      
+      var wagon = document.getElementById('wagon');
+      var move = function (object, from, to) {
+        if (from >= to) return;
+        object.setAttribute('x', from + 1 + '');
+        setTimeout(move, 30, object, from + 1, to);
+      };
+      move(wagon, path.points[0][0], path.points[0][1]);
+    </script>
+    
+  </svg>
