@@ -47,6 +47,5 @@ Link.prototype = BaggageHolder.prototype;
 
 
 function Baggage() {
-  this.
 }
 
