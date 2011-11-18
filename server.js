@@ -8,8 +8,9 @@ var fs = require('fs'),
     camp = require ('./camp/camp.js');
 
 function start(config) {
-  
-  camp.add('pullconfig', function() {
+	console.log('lol yann'); 
+  camp.add('pullconfig', function(data) {
+		console.log('lol yann2'); 
     return config;
   });
   
