@@ -6,10 +6,10 @@
 		"width": 200,
 		"bags" : [22,31,1,15],
 		"wagons" : [ 
-			{ "speed":3.14, "bags":[1,2] },
-			{ "speed":15, "bags":[0,3] },
-			{ "speed":0, "bags":[] },
-			{ "speed":200, "bags":[0] }
+			{ "speed":3.14, "bags":1 },
+			{ "speed":15, "bags":0 },
+			{ "speed":0, "bags": },
+			{ "speed":200, "bags":2 }
 		],
 		"nodes" : [
 			{ "id":0, "x":5,"y":5 }, 
