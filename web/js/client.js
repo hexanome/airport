@@ -2,11 +2,13 @@
 
 function pullConfig() {
   Scout.send(function(query) {
+    console.log('pulling config');
     query.action = 'pullconfig';
     query.resp = function(config) {
+      console.log('received config');
       window.config = config;
     }
-  });
+  })();
 }
 
 function pushConfig() {
