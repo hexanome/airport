@@ -8,11 +8,18 @@ var fs = require('fs'),
     camp = require ('./camp/camp.js');
 
 function start(config) {
+  
+  camp.add('pullconfig', function() {
+    return config;
+  });
+  
+  camp.add('pushconfig', function(newconfig) {
+    config = newconfig;
+  });
 
   // Let's rock'n'roll!
   camp.start(config.port || 80,
              config.debug || 0);
-             
 }
 
 (function main() {
