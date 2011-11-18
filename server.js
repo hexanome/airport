@@ -7,22 +7,29 @@
 var fs = require('fs'),
     camp = require ('./camp/camp.js');
 
+// Start the server
 function start(config) {
-	console.log('lol yann'); 
+
+  // Get current config by Ajax
   camp.add('pullconfig', function(data) {
-		console.log('lol yann2'); 
     return config;
   });
   
+  // Overwrite configuration by Ajax
   camp.add('pushconfig', function(newconfig) {
     config = newconfig;
   });
+  
+  // Display the current config as a JSON file
+  camp.handle('/config.json', function(query, path) {
+    return {"content":JSON.stringify(config,null,2)};
+  });
 
-  // Let's rock'n'roll!
-  camp.start(config.port || 80,
-             config.debug || 0);
+  // Finally start the server
+  camp.start(config.port || 80, config.debug || 0);
 }
 
+// Main function
 (function main() {
   var config = process.argv[2] || '../config.json';
   
