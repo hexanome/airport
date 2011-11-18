@@ -9,7 +9,7 @@
 			{ "speed":3.14, "bags":[1,2] },
 			{ "speed":15, "bags":[0,3] },
 			{ "speed":0, "bags":[] },
-			{ "speed":200, "bags":[0] },
+			{ "speed":200, "bags":[0] }
 		],
 		"nodes" : [
 			{ "id":0, "x":5,"y":5 }, 
