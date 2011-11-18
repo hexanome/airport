@@ -3,11 +3,24 @@
  * Code covered by the LGPL license. */
 
 
-// Import the Camp
-var Camp = require ('./camp/camp.js');
+// Import modules
+var fs = require('fs'),
+    camp = require ('./camp/camp.js');
 
+function start(config) {
 
+  // Let's rock'n'roll!
+  camp.start(config.port || 80,
+             config.debug || 0);
+             
+}
 
-// Let's rock'n'roll!
-Camp.start(process.argv[2] || 80,
-           process.argv[3] || 0);
+(function main() {
+  var config = process.argv[2] || '../config.json';
+  
+  fs.readFile(config, function(err, data) {
+    if ( err ) throw err;
+    start(JSON.parse(data));
+  });
+  
+})();
