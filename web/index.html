@@ -13,21 +13,46 @@ Failure.
 
   <svg>
     
-    <path d="M0 30 L100 30 L200 400" fill="white" stroke="black"/>
+    <path d="M0 30 L100 30 L200 400 L100 400" fill="white" stroke="black"/>
+    
     <rect id="wagon" x="20" y="20" width="40" height="20" fill="green"/>
     
     <script>
-      var path = {
-        points: [[0,30], [100,30], [200,400]]
+      var path = { points: [[0,30], [100,30], [200,400], [100,400]] },
+          wagon = document.getElementById('wagon');
+      
+      function setpos (object, x, y) {
+        object.setAttribute('x', x + '');
+        object.setAttribute('y', y + '');
+      }
+      
+      function move (object, from, length, whendone) {
+        if (length <= 0) { whendone? whendone():void 0; return; }
+        var halfwidth = Number(object.getAttribute('width'))/2,
+            halfheight = Number(object.getAttribute('height'))/2;
+        setpos(object, from[0] - halfwidth, from[1] - halfheight);
+        setTimeout(move, 30, object, [from[0]+1,from[1]], length-1, whendone);
       };
       
-      var wagon = document.getElementById('wagon');
-      var move = function (object, from, to) {
-        if (from >= to) return;
-        object.setAttribute('x', from + 1 + '');
-        setTimeout(move, 30, object, from + 1, to);
-      };
-      move(wagon, path.points[0][0], path.points[0][1]);
+      function alongsegment(object, segment, idx) {
+        idx = idx || 0;
+        var from = segment[idx],
+            to = segment[idx+1],
+            dx = to[0] - from[0],
+            dy = to[1] - from[1],
+            length = Math.sqrt(dx*dx + dy*dy);
+        move(wagon, segment[idx], length, function whendone() {
+          var from = segment[idx+1],
+              to = segment[idx+2],
+              angle = to[0] !== from[0]? Math.atan((to[1]-from[1]) / (to[0]-from[0])): Math.PI/2;
+          wagon.setAttribute('transform', 'rotate(' + (angle*180/Math.PI)
+                             + ' ' + path.points[1][0] + ' ' + path.points[1][1] + ')');
+          console.log(segment[idx+1]);
+          if (segment[idx+1]) alongsegment(object, segment, idx+1);
+        });
+      }
+      
+      alongsegment(wagon, path.points);
     </script>
     
   </svg>
