@@ -34,15 +34,20 @@ function start(config) {
   camp.handle('/index.html', function(query, path) {
     console.log('templating index');
     var desks={};
+    var slides={};
     for (var i in config.airport.nodes){
       if (config.airport.nodes[i].type==="desk"){
         desks[i]=config.airport.nodes[i];
       }  
+      if (config.airport.nodes[i].type==="slide"){
+        slides[i]=config.airport.nodes[i];
+      }
     }
     return {
       wagons: config.airport.wagons,
       rails: config.airport.rails,
       desks: desks,
+      slides: slides,
       nodes: config.airport.nodes
     };
   });
