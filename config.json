@@ -8,7 +8,12 @@
     "width": 500,
 		"desksize" : 10,
 		"slidesize" : 10,
-    "bags" : [22,31,1,15],
+    "bags" : [
+			{ "id":22, "dest":17 },
+			{ "id":31, "dest":18 },
+			{ "id":1, "dest":17 },
+			{ "id":15, "dest":19 }
+		],
     "wagons" : [ 
       { "speed":3.14, "bags":1, "x":165, "y":45 },
       { "speed":15, "bags":0, "x":165, "y":45 },
