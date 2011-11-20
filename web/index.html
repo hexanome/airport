@@ -14,21 +14,21 @@
 <!-- packages will be included here -->
 
 <svg>
-	{{-wagons|wagon|i;
-		<rect id="node{{=i|plain}}" x="{{=wagon.x|integer}}"
+  {{-wagons|wagon|i;
+    <rect id="node{{=i|plain}}" x="{{=wagon.x|integer}}"
         y="{{=wagon.y|integer}}" width="15" height="10" fill="green"></rect>
-	}}
-	{{-rails|rail|i;
+  }}
+  {{-rails|rail|i;
     <path id="p{{=i|plain}}" d="{{lrail}}" fill="transparent"
         stroke="black"></path>
-	}}    
-	{{-desks|desk|i;
-		<rect id="desk{{=i|plain}}" x="{{=desk.x|integer}}"
+  }}    
+  {{-desks|desk|i;
+    <rect id="desk{{=i|plain}}" x="{{=desk.x|integer}}"
         y="{{=desk.y|integer}}" width="20" height="20" fill="red"></rect>
-	}}
-	{{-slides|slide|i;
-		<rect id="slide{{=i|plain}}" x="{{=slide.x|integer}}"
+  }}
+  {{-slides|slide|i;
+    <rect id="slide{{=i|plain}}" x="{{=slide.x|integer}}"
         y="{{=slide.y|integer}}" width="20" height="20" fill="blue"></rect>
-	}}
-	
+  }}
+  
 </svg>
