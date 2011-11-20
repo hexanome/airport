@@ -25,10 +25,12 @@ function changeColor(id,color){
   node.setAttributeNS(null,"fill",color);
 }
 
-function addWagon(wagon){
-  var svg = document.getElementByTagName("svg")[0];
-  var rect = document.getElementByTagName("rect")[0].cloneNode();
-  alert(rect.id);
+function addWagon(){
+  var svg = document.getElementsByTagName("svg")[0];
+  var rect = document.getElementsByTagName("rect")[0].cloneNode();
+  rect.id =  'node' + window.config.airport.wagons.length;
+  svg.appendChild(rect);
+  var wagon = { "speed":0, "bags":0, "x":rect.x.baseVal.value , "y":rect.y.baseVal.value };
   window.config.airport.wagons.push(wagon);
   pushConfig();
 }
