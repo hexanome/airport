@@ -15,10 +15,6 @@
 <svg>
 	{{-wagons|wagon|i;
 		<rect id="node{{=i|plain}}" x="{{=wagon.x|integer}}" y="{{=wagon.y|integer}}" width="15" height="10" fill="green"/>
-			<animateMotion id="node" calcMode="spline" dur="7s" repeatCount="1" rotate="auto">
-				<mpath xlink:href="#p"/>
-			</animateMotion>
-		</rect>
 	}}
 	{{-rails|rail|i;
 		<path id="p{{=i|plain}}" d="{{lrail}}" fill="white" stroke="black"/>
