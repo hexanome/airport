@@ -36,7 +36,6 @@ function start(config) {
 		var desks={};
 		for (var i in config.airport.nodes){
 			if (config.airport.nodes[i].type==="desk"){
-				console.log(config.airport.nodes[i]);
 				desks[i]=config.airport.nodes[i];
 			}	
 		}
