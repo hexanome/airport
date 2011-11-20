@@ -1,10 +1,10 @@
-
+// Handling of graphical elements in index.html (svg manipulation, etc.)
 
 function pullConfig() {
   Scout.send(function(query) {
     console.log('pulling config');
     query.action = 'pullconfig';
-		query.data = {lol:'bidon'};
+    query.data = {lol:'bidon'};
     query.resp = function(config) {
       console.log('received config');
       window.config = config;
