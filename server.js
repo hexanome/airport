@@ -31,8 +31,9 @@ function start(config) {
   };
 
   // Add objects from config to index2.html
-  camp.handle('/index.html', function(query, path) {
-    console.log('templating index');
+  function handleindex(query, path) {
+    console.log('templating index from', path[0]);
+    path[0] = '/index.html';
     var desks={};
     var slides={};
     for (var i in config.airport.nodes){
@@ -50,7 +51,9 @@ function start(config) {
       slides: slides,
       nodes: config.airport.nodes
     };
-  });
+  }
+  camp.handle('/index.html', handleindex);
+  camp.handle('/', handleindex);
 
   // Display the current config as a JSON file
   camp.handle('/config.json', function(query, path) {
