@@ -21,31 +21,31 @@ function start(config) {
     config = newconfig;
   });
 
-	camp.Plate.macros['l'] = function ( literal, params ) {
-		var rail = literal[params[0]];
-		var nl = "M" + literal.nodes[rail.points[0]].x + " " + literal.nodes[rail.points[0]].y;
-		for (var i=1; i<rail.points.length; i++) {
-			nl += " L" + literal.nodes[rail.points[i]].x + " " + literal.nodes[rail.points[i]].y;
-		}
-		return nl;
-	};
+  camp.Plate.macros['l'] = function ( literal, params ) {
+    var rail = literal[params[0]];
+    var nl = "M" + literal.nodes[rail.points[0]].x + " " + literal.nodes[rail.points[0]].y;
+    for (var i=1; i<rail.points.length; i++) {
+      nl += " L" + literal.nodes[rail.points[i]].x + " " + literal.nodes[rail.points[i]].y;
+    }
+    return nl;
+  };
 
   // Add objects from config to index2.html
-	camp.handle('/index.html', function(query, path) {
-		console.log('templating index');
-		var desks={};
-		for (var i in config.airport.nodes){
-			if (config.airport.nodes[i].type==="desk"){
-				desks[i]=config.airport.nodes[i];
-			}	
-		}
-		return {
-			wagons: config.airport.wagons,
-			rails: config.airport.rails,
-			desks: desks,
-		  nodes: config.airport.nodes
-		};
-	});
+  camp.handle('/index.html', function(query, path) {
+    console.log('templating index');
+    var desks={};
+    for (var i in config.airport.nodes){
+      if (config.airport.nodes[i].type==="desk"){
+        desks[i]=config.airport.nodes[i];
+      }  
+    }
+    return {
+      wagons: config.airport.wagons,
+      rails: config.airport.rails,
+      desks: desks,
+      nodes: config.airport.nodes
+    };
+  });
 
   // Display the current config as a JSON file
   camp.handle('/config.json', function(query, path) {
@@ -60,7 +60,7 @@ function start(config) {
 (function main() {
   var config = process.argv[2] || '../config.json';
 
-	console.log('starting...');
+  console.log('starting...');
 
   fs.readFile(config, function(err, data) {
     if ( err ) throw err;

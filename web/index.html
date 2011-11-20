@@ -2,7 +2,7 @@
 <meta charset=utf8>
 <title>Airport</title>
 
-<p>Save: <input type=button onClick="window.open('/config.json','Download')" value=config.json id=save></p>
+<p>Save: <input type=button onclick="window.open('/config.json','Download')" value=config.json id=save></p>
 <p>Load: <input type=file name=configfile></p>
 
 <script src=./js/jquery-1.6.2.min.js></script>
@@ -14,7 +14,7 @@
 
 <svg>
 	{{-wagons|wagon|i;
-		<rect id="node{{=i|plain}}" x="{{=wagon.x|integer}}" y="{{=wagon.y|integer}}" width="15" height="10" fill="green"/>
+		<rect id="node{{=i|plain}}" x="{{=wagon.x|integer}}" y="{{=wagon.y|integer}}" width="15" height="10" fill="green">
 			<animateMotion id="node" calcMode="spline" dur="7s" repeatCount="1" rotate="auto">
 				<mpath xlink:href="#p"/>
 			</animateMotion>
