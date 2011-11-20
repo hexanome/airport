@@ -33,7 +33,7 @@ function start(config) {
 	};
 
   // Add objects from config to index2.html
-	camp.handle('/lol.html', function(query, path) {
+	camp.handle('/index.html', function(query, path) {
 		console.log('templating index');
 		return {
 			wagons: config.airport.wagons,
