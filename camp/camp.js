@@ -46,8 +46,40 @@ exports.Server.mime = {
   'csv': 'text/csv',
   'dtd': 'application/xml-dtd',
 
-  'js': 'application/javascript',
+  'js': 'text/javascript',
   'json': 'application/json',
+  'css': 'text/css',
+  'html': 'text/html',
+  'c': 'text/x-csrc',
+  'cpp': 'text/x-c++src',
+  'java': 'text/x-java',
+  'groovy': 'text/x-groovy',
+  'clj': 'text/x-clojure',
+  'coffee': 'text/x-coffeescript',
+  'diff': 'text/x-diff',
+  'hs': 'text/x-haskell',
+  'lua': 'text/x-lua',
+  'md': 'text/x-markdown',
+  'nt': 'text/n-triples',
+  'pas': 'text/x-pascal',
+  'pl': 'text/x-perl',
+  'php': 'text/x-php',
+  'pls': 'text/x-plsql',
+  'sql': 'text/x-plsql',
+  'py': 'text/x-python',
+  'r': 'text/x-rsrc',
+  'rst': 'text/x-rst',
+  'rb': 'text/x-ruby',
+  'rs': 'text/x-rustsrc',
+  'scm': 'text/x-scheme',
+  'ss': 'text/x-scheme',
+  'rkt': 'text/x-scheme',
+  'st': 'text/x-stsrc',
+  'sparql': 'text/x-sparql-query',
+  'tex': 'text/x-stex',
+  'latex': 'text/x-stex',
+  'vtl': 'text/velocity',
+  'yaml': 'text/x-yaml',
 
   'pdf': 'application/pdf',
   'ps': 'application/postscript',
@@ -109,21 +141,21 @@ function parsequery (query, strquery) {
 }
 
 
-// Start function.
+// Internal start function.
 //
 
-exports.Server.start = function (port, debug) {
+exports.Server.start = function (port, security, debug) {
   "use strict";
-  port = port || 80;
-  debug = debug || 0;
 
   var http = require('http')
+    , https = require('https')
     , p = require('path')
     , fs = require('fs')
     , url = require('url')
     , qs = require('querystring');
 
-  http.createServer(function(req,res){
+  // The request listener
+  function listener(req,res){
     var uri = url.parse (req.url, true);
     var path = uri.pathname;
     var query = uri.query;
@@ -186,8 +218,10 @@ exports.Server.start = function (port, debug) {
         /* Handler for when we get a data request. */
         var gotrequest = function (chunk) {
 
-          /* Parse the chunk (it is an object literal). */
-          parsequery (query, chunk.toString ());
+          if (chunk !== undefined) {
+            /* Parse the chunk (it is an object literal). */
+            parsequery (query, chunk.toString ());
+          }
 
           /* Launch the defined action. */
           if (exports.Server.Actions[action]) {
@@ -200,7 +234,8 @@ exports.Server.start = function (port, debug) {
           }
 
         };
-        req.on ('data', gotrequest);
+        if (req.method === 'POST') req.on ('data', gotrequest);
+        else gotrequest();
 
       } else {
         if (debug > 3) { console.log ('validated', path); }  ///
@@ -286,9 +321,28 @@ exports.Server.start = function (port, debug) {
       res.end ('404: thou hast finished me!\n');
     }
 
-  }).listen(port);
+  };
+
+  // Are we running https?
+  if (security.key && security.cert) { // yep
+    https.createServer({
+      key: fs.readFileSync(security.key),
+      cert: fs.readFileSync(security.cert)
+    },listener).listen(port);
+  } else { // nope
+    http.createServer(listener).listen(port);
+  }
 };
 
-// Easy start alias
+// Exported start function.
 //
-exports.start = exports.Server.start;
+exports.start = function(options) {
+  var security = {};
+  if (options.secure === 'yes' || options.key || options.cert) {
+    security.key = options.key || '../https.key',
+    security.cert = options.cert || '../https.crt'
+  }
+  var debug = options.debug || 0,
+      port = options.port || ( security.key && security.cert ? 443 : 80 );
+  exports.Server.start(port,security,debug);
+};
