@@ -1,0 +1,25 @@
+<!doctype html>
+<meta charset=utf8>
+<title>Airport</title>
+
+<p>Save: <input type=button onClick="window.open('/config.json','Download')" value=config.json id=save></p>
+<p>Load: <input type=file name=configfile></p>
+
+<script src=./js/jquery-1.6.2.min.js></script>
+<script src=./js/jquery-ui-1.8.16.custom.min.js></script>
+<script src=./js/scout.js></script>
+<script src=./js/client.js></script>
+<script src=./js/airport.js></script>
+<!-- packages will be included here -->
+
+<svg>
+  
+  <path id="p" d="M0 30 L100 30 L200 400 L200 450 L100 450" fill="white" stroke="black"/>
+  
+  <rect id="wagon" x="-10" y="-10" width="40" height="20" fill="green">
+    <animateMotion id="wagon" calcMode="spline" dur="7s" repeatCount="1" rotate="auto">
+      <mpath xlink:href="#p"/>
+    </animateMotion>
+  </rect>
+
+</svg>

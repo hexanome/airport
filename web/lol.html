@@ -1,0 +1,21 @@
+<!doctype html>
+<meta charset=utf8>
+<title></title>
+
+Failure.
+
+<script src=./js/jquery-1.6.2.min.js></script>
+<script src=./js/jquery-ui-1.8.16.custom.min.js></script>
+<script src=./js/scout.js></script>
+<script src=./js/client.js></script>
+<script src=./js/airport.js></script>
+<!-- packages will be included here -->
+
+  <svg>
+		{{-wagons|wagon|i;
+			<rect id="node{{=i|integer}}" x={{=wagon.x|integer}} y="{{=wagon.y|integer}}" width="15" height="10" fill="green"/>
+		}}
+		{{-rails|rail|i;
+		<path id="path" d="{{lrail}}" fill="white" stroke="black"/>
+		}}
+  </svg>

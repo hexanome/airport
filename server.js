@@ -22,21 +22,14 @@ function start(config) {
   });
 
 	camp.Plate.macros['l'] = function ( literal, params ) {
-		console.log(params[0]);
-		console.log(params[1]);
-		console.log(params[2]);
-		console.log(camp.Plate.value);
-		/*
-		console.log(path);
-		var list = '';
-    var newliteral = literal;
-    for (var i in val) {
-      newliteral[params[1]] = val[i];
-      newliteral[params[2]] = i;
-      list += literal;
-    }
-		*/
-		return literal;
+		console.log(literal[params[0]]);
+		var rail = literal[params[0]];
+		var nl = "M";
+		var nl += literal.nodes[rail.points[0]].x + " " + literal.nodes[rail.points[0]].y;
+		for (var i=1; i<rail.points.length; i++) {
+			console.log(literal.nodes[rail.points[i]]);
+		}
+		return nl;
 	};
 
   // Add objects from config to index2.html
