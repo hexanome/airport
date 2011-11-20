@@ -29,7 +29,8 @@
 			{ "x":20,"y":100,"type":"branch" }, 
 			{ "x":50,"y":80,"type":"slide" }, 
 			{ "x":140,"y":10,"type":"desk" },
-			{ "x":130,"y":10,"type":"desk" }
+			{ "x":130,"y":10,"type":"desk" },
+			{ "x":120,"y":10,"type":"desk" }
 		],
 		"rails" : [ 
 			{ "points":[4,3], "after":[1] },
@@ -42,7 +43,9 @@
 			{ "points":[9,10], "after":[8] },
 			{ "points":[10,11,4], "after":[0] },
 			{ "points":[5,12,13,6], "after":[5] },
-			{ "points":[15,3], "after":[1] }
+			{ "points":[15,3], "after":[1] },
+			{ "points":[16,2], "after":[2] },
+			{ "points":[17,1], "after":[3] }
 		]
 	}	
 }
