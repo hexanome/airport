@@ -24,7 +24,7 @@ function pushConfig() {
 }
 
 function save() {
-  window.open('/config.json','Save As');
+  window.open('/config.json','Save As','height=400,width=400');
 }
 
 function load(files) {
