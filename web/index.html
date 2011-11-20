@@ -26,15 +26,15 @@
   }}    
   {{-desks|desk|i;
     <rect id="desk{{=i|plain}}"
-			x="{{=(desk.x - desksize/2)*globalsize|integer}}"
-	 	  y="{{=(desk.y - desksize/2)*globalsize|integer}}"
+			x="{{=desk.x*globalsize - desksize/2|integer}}"
+	 	  y="{{=desk.y*globalsize - desksize/2|integer}}"
       width="{{=desksize|integer}}" height="{{=desksize|integer}}"
       fill="red"></rect>
   }}
   {{-slides|slide|i;
 		<rect id="slide{{=i|plain}}"
-			x="{{=(slide.x - slidesize/2)*globalsize|integer}}"
-			y="{{=(slide.y - slidesize/2)*globalsize|integer}}"
+			x="{{=slide.x*globalsize - slidesize/2|integer}}"
+			y="{{=slide.y*globalsize - slidesize/2|integer}}"
       width="{{=slidesize|integer}}" height="{{=slidesize|integer}}"
       fill="blue"></rect>
   }}
