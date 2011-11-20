@@ -25,4 +25,16 @@ function changeColor(id,color){
   node.setAttributeNS(null,"fill",color);
 }
 
+function addWagon(wagon){
+  var svg = document.getElementByTagName("svg")[0];
+  var rect = document.getElementByTagName("rect")[0].cloneNode();
+  alert(rect.id);
+  window.config.airport.wagons.push(wagon);
+  pushConfig();
+}
+
+window.changeColor = changeColor;
+window.addWagon = addWagon;
+
+
 pullConfig();
