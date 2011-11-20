@@ -24,10 +24,10 @@ function start(config) {
 	camp.Plate.macros['l'] = function ( literal, params ) {
 		console.log(literal[params[0]]);
 		var rail = literal[params[0]];
-		var nl = "M";
-		var nl += literal.nodes[rail.points[0]].x + " " + literal.nodes[rail.points[0]].y;
+		var nl = "M" + literal.nodes[rail.points[0]].x + " " + literal.nodes[rail.points[0]].y;
 		for (var i=1; i<rail.points.length; i++) {
 			console.log(literal.nodes[rail.points[i]]);
+			nl += "L" + literal.nodes[rail.points[i]].x + " " + literal.nodes[rail.points[i]].y;
 		}
 		return nl;
 	};
