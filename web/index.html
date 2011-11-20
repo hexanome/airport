@@ -2,19 +2,22 @@
 <meta charset=utf8>
 <title>Airport</title>
 
-<input type=button value=Save onclick="save()">
+<div class="topbar">
+  <div class="fill">
+    <div class="container">
+    <a class="brand" href="#"><img src="./img/logo.png"></a>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Account</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+<input type=button class="btn primary" value=Save onclick="save()">
 <input type=file id=file onchange="load(this.files)">
-<input type=button value=Load onclick="load()">
-
-<input type=button onclick="changeColor('node0', 'red')" value=changeColor>
-<input type=button onclick="addWagon({})" value=addWagon>
-
-<script src=./js/jquery-1.6.2.min.js></script>
-<script src=./js/jquery-ui-1.8.16.custom.min.js></script>
-<script src=./js/scout.js></script>
-<script src=./js/client.js></script>
-<script src=./js/airport.js></script>
-<!-- packages will be included here -->
 
 <svg height={{=h|integer}} width={{=w|integer}}>
   {{-wagons|wagon|i;
@@ -42,3 +45,12 @@
   }}
   
 </svg>
+</div>
+
+<link rel="stylesheet" href="./css/style.css">
+<script src=./js/jquery-1.6.2.min.js></script>
+<script src=./js/jquery-ui-1.8.16.custom.min.js></script>
+<script src=./js/scout.js></script>
+<script src=./js/client.js></script>
+<script src=./js/airport.js></script>
+<!-- packages will be included here -->
