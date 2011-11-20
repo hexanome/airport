@@ -19,4 +19,10 @@ function pushConfig() {
   });
 }
 
+
+function changeColor(id,color){
+  var node = document.getElementsByTagName("rect")[0]; //document.getElementById(id);
+  node.setAttributeNS(null,"fill",color);
+}
+
 pullConfig();
