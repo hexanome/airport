@@ -14,14 +14,17 @@
 
 <svg>
 	{{-wagons|wagon|i;
-		<rect id="node{{=i|integer}}" x={{=wagon.x|integer}} y="{{=wagon.y|integer}}" width="15" height="10" fill="green"/>
+		<rect id="node{{=i|plain}}" x="{{=wagon.x|integer}}" y="{{=wagon.y|integer}}" width="15" height="10" fill="green"/>
+			<animateMotion id="node" calcMode="spline" dur="7s" repeatCount="1" rotate="auto">
+				<mpath xlink:href="#p"/>
+			</animateMotion>
+		</rect>
 	}}
 	{{-rails|rail|i;
-	<path id="p" d="{{lrail}}" fill="white" stroke="black"/>
+	<path id="p{{=i|plain}}" d="{{lrail}}" fill="white" stroke="black"/>
+	}}    
+	{{-wagons|desk|i;
+		<rect id="desk{{=i|plain}}" x="{{=desk.x|integer}}" y="{{=desk.y|integer}}" width="20" height="20" fill="red"/>
 	}}
-    <animateMotion id="node" calcMode="spline" dur="7s" repeatCount="1" rotate="auto">
-      <mpath xlink:href="#p"/>
-    </animateMotion>
-  </rect>
 
 </svg>
