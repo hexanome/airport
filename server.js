@@ -23,9 +23,11 @@ function start(config) {
 
   camp.Plate.macros['l'] = function ( literal, params ) {
     var rail = literal[params[0]];
-    var nl = "M" + literal.nodes[rail.points[0]].x + " " + literal.nodes[rail.points[0]].y;
+    var nl = "M" + literal.nodes[rail.points[0]].x + " "
+        + literal.nodes[rail.points[0]].y;
     for (var i=1; i<rail.points.length; i++) {
-      nl += " L" + literal.nodes[rail.points[i]].x + " " + literal.nodes[rail.points[i]].y;
+      nl += " L" + literal.nodes[rail.points[i]].x + " "
+          + literal.nodes[rail.points[i]].y;
     }
     return nl;
   };
@@ -34,14 +36,14 @@ function start(config) {
   function handleindex(query, path) {
     console.log('templating index from', path[0]);
     path[0] = '/index.html';
-    var desks={};
-    var slides={};
+    var desks = {};
+    var slides = {};
     for (var i in config.airport.nodes){
-      if (config.airport.nodes[i].type==="desk"){
-        desks[i]=config.airport.nodes[i];
+      if (config.airport.nodes[i].type === "desk") {
+        desks[i] = config.airport.nodes[i];
       }  
-      if (config.airport.nodes[i].type==="slide"){
-        slides[i]=config.airport.nodes[i];
+      if (config.airport.nodes[i].type === "slide") {
+        slides[i] = config.airport.nodes[i];
       }
     }
     return {
