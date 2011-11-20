@@ -14,7 +14,7 @@
 <script src=./js/airport.js></script>
 <!-- packages will be included here -->
 
-<svg>
+<svg height={{=h|integer}} width={{=w|integer}}>
   {{-wagons|wagon|i;
 		<rect id="wagon{{=i|plain}}" 
 			x="{{=wagon.x*globalsize|integer}}" y="{{=wagon.y*globalsize|integer}}" 

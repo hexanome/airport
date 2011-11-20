@@ -22,7 +22,7 @@ function start(config) {
   });
 
   camp.Plate.macros['l'] = function ( literal, params ) {
-		var gs=1;
+		var gs=config.airport.globalsize;
     var rail = literal[params[0]];
     var nl = "M" + (literal.nodes[rail.points[0]].x*gs - 0.5) + " "
         + (literal.nodes[rail.points[0]].y*gs - 0.5);
@@ -55,6 +55,8 @@ function start(config) {
       slidesize: 10,
       slides: slides,
 			globalsize: config.airport.globalsize,
+			w : config.airport.width,
+			h : config.airport.height,
       nodes: config.airport.nodes
     };
   }
