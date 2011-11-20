@@ -49,3 +49,19 @@ document.addEventListener('load', function() {
   pullConfig();
 }, false);
 
+
+// Wagon movements.
+//
+
+function moveAlong(wagonidx, railidx) {
+  var wagon = config.airport.wagon[wagonidx],
+      rail = config.airport.rails[railidx],
+      // What nodes does that rail come from?
+      startnode = config.airport.nodes[rail.points[0]],
+      endnode = config.airport.nodes[rail.points];
+}
+
+function moveAround(wagonidx) {
+  var wagon = config.airport.wagon[wagonidx];
+}
+
