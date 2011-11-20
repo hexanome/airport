@@ -2,8 +2,10 @@
 <meta charset=utf8>
 <title>Airport</title>
 
-<p>Save: <input type=button onclick="window.open('/config.json','Download')"
-  value=config.json id=save></p> <p>Load: <input type=file name=configfile></p>
+<input type=button value=Save onclick="save()">
+<input type=file id=file onchange="load(this.files)">
+<input type=button value=Load onclick="load()">
+
 <input type=button onclick="changeColor('node0', 'red')" value=changeColor>
 <input type=button onclick="addWagon({})" value=addWagon>
 

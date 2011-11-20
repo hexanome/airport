@@ -23,6 +23,20 @@ function pushConfig() {
   });
 }
 
+function save() {
+  window.open('/config.json','Save As');
+}
+
+function load(files) {
+  var file = files[0];
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    window.config = e.target.result;
+    pushConfig();
+  }
+  reader.readAsText(file);
+}
+
 
 // Graphical updates.
 //
