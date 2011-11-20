@@ -46,6 +46,7 @@ function start(config) {
         slides[i] = config.airport.nodes[i];
       }
     }
+		console.log(desks);
     return {
       wagons: config.airport.wagons,
       rails: config.airport.rails,
