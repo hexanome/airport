@@ -33,9 +33,17 @@ function start(config) {
   // Add objects from config to index2.html
 	camp.handle('/index.html', function(query, path) {
 		console.log('templating index');
+		var desks;
+		for (var i in config.airport.nodes){
+			console.log(i.type)
+			if (i.type==="desk"){
+				desks[i]=config.airport.nodes[i];
+			}	
+		}
 		return {
 			wagons: config.airport.wagons,
 			rails: config.airport.rails,
+			desks: desks,
 		  nodes: config.airport.nodes
 		};
 	});
