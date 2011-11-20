@@ -3,6 +3,7 @@
   "debug" : 10,
   "auto" : true,
   "airport" : {
+		"globalsize" : 1,
     "height" : 200,
     "width": 200,
     "bags" : [22,31,1,15],

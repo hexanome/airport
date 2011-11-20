@@ -54,7 +54,7 @@ function start(config) {
       desksize: 10,
       slidesize: 10,
       slides: slides,
-			globalsize: 1,
+			globalsize: config.airport.globalsize,
       nodes: config.airport.nodes
     };
   }
