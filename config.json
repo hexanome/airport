@@ -6,6 +6,8 @@
 		"globalsize" : 2,
     "height" : 500,
     "width": 500,
+		"desksize" : 10,
+		"slidesize" : 10,
     "bags" : [22,31,1,15],
     "wagons" : [ 
       { "speed":3.14, "bags":1, "x":165, "y":45 },
