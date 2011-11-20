@@ -33,10 +33,10 @@ function start(config) {
   // Add objects from config to index2.html
 	camp.handle('/index.html', function(query, path) {
 		console.log('templating index');
-		var desks;
+		var desks={};
 		for (var i in config.airport.nodes){
-			console.log(i.type)
-			if (i.type==="desk"){
+			if (config.airport.nodes[i].type==="desk"){
+				console.log(config.airport.nodes[i]);
 				desks[i]=config.airport.nodes[i];
 			}	
 		}
