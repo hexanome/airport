@@ -24,16 +24,16 @@
         stroke="black"></path>
   }}    
   {{-desks|desk|i;
-		<rect id="desk{{=i|plain}}"
-			x="{{=desk.x - desksize/2|integer}}" y="{{=desk.y - desksize/2|integer}}"
-			width="{{=desksize|integer}}" height="{{=desksize|integer}}"
-			fill="red"></rect>
-	}}
+    <rect id="desk{{=i|plain}}"
+      x="{{=desk.x - desksize/2|integer}}" y="{{=desk.y - desksize/2|integer}}"
+      width="{{=desksize|integer}}" height="{{=desksize|integer}}"
+      fill="red"></rect>
+  }}
   {{-slides|slide|i;
-	<rect id="slide{{=i|plain}}"
-			x="{{=slide.x - slidesize/2|integer}}" y="{{=slide.y - slidesize/2|integer}}"
-			width="{{=slidesize|integer}}" height="{{=slidesize|integer}}"
-		 	fill="blue"></rect>
+  <rect id="slide{{=i|plain}}"
+      x="{{=slide.x - slidesize/2|integer}}" y="{{=slide.y - slidesize/2|integer}}"
+      width="{{=slidesize|integer}}" height="{{=slidesize|integer}}"
+       fill="blue"></rect>
   }}
   
 </svg>

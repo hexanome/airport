@@ -1,5 +1,9 @@
 // Handling of graphical elements in index.html (svg manipulation, etc.)
 
+
+// Getting and updating the configuration file.
+//
+
 function pullConfig() {
   Scout.send(function(query) {
     console.log('pulling config');
@@ -20,8 +24,11 @@ function pushConfig() {
 }
 
 
+// Graphical updates.
+//
+
 function changeColor(id,color){
-  var node = document.getElementsByTagName("rect")[0]; //document.getElementById(id);
+  var node = document.getElementsByTagName("rect")[0];
   node.setAttributeNS(null,"fill",color);
 }
 
@@ -38,5 +45,7 @@ function addWagon(){
 window.changeColor = changeColor;
 window.addWagon = addWagon;
 
+document.addEventListener('load', function() {
+  pullConfig();
+}, false);
 
-pullConfig();
