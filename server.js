@@ -23,11 +23,11 @@ function start(config) {
 
   camp.Plate.macros['l'] = function ( literal, params ) {
     var rail = literal[params[0]];
-    var nl = "M" + literal.nodes[rail.points[0]].x + " "
-        + literal.nodes[rail.points[0]].y;
+    var nl = "M" + (literal.nodes[rail.points[0]].x - 0.5) + " "
+        + (literal.nodes[rail.points[0]].y - 0.5);
     for (var i=1; i<rail.points.length; i++) {
-      nl += " L" + literal.nodes[rail.points[i]].x + " "
-          + literal.nodes[rail.points[i]].y;
+      nl += " L" + (literal.nodes[rail.points[i]].x - 0.5) + " "
+          + (literal.nodes[rail.points[i]].y - 0.5);
     }
     return nl;
   };
