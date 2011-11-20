@@ -46,12 +46,11 @@ function start(config) {
         slides[i] = config.airport.nodes[i];
       }
     }
-		console.log(desks);
     return {
       wagons: config.airport.wagons,
       rails: config.airport.rails,
       desks: desks,
-      desksize: 20,
+      desksize: 10,
       slides: slides,
       nodes: config.airport.nodes
     };
