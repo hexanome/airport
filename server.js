@@ -51,6 +51,7 @@ function start(config) {
       rails: config.airport.rails,
       desks: desks,
       desksize: 10,
+      slidesize: 10,
       slides: slides,
       nodes: config.airport.nodes
     };
