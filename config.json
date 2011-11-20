@@ -21,16 +21,18 @@
 			{ "x":50,"y":70,"type":"branch" }, 
 			{ "x":50,"y":100,"type":"branch" }, 
 			{ "x":50,"y":120,"type":"branch" }, 
+			{ "x":100,"y":120,"type":"branch" }, 
 			{ "x":120,"y":120,"type":"branch" }, 
-			{ "x":130,"y":120,"type":"branch" }, 
 			{ "x":140,"y":120,"type":"branch" }, 
 			{ "x":170,"y":120,"type":"branch" }, 
 			{ "x":20,"y":70,"type":"branch" }, 
 			{ "x":20,"y":100,"type":"branch" }, 
-			{ "x":50,"y":80,"type":"slide" }, 
 			{ "x":140,"y":10,"type":"desk" },
 			{ "x":120,"y":10,"type":"desk" },
-			{ "x":100,"y":10,"type":"desk" }
+			{ "x":100,"y":10,"type":"desk" },
+			{ "x":100,"y":140,"type":"slide" }, 
+			{ "x":120,"y":140,"type":"slide" }, 
+			{ "x":140,"y":140,"type":"slide" }
 		],
 		"rails" : [ 
 			{ "points":[4,3], "after":[1] },
@@ -43,9 +45,12 @@
 			{ "points":[9,10], "after":[8] },
 			{ "points":[10,11,4], "after":[0] },
 			{ "points":[5,12,13,6], "after":[5] },
-			{ "points":[15,3], "after":[1] },
-			{ "points":[16,2], "after":[2] },
-			{ "points":[17,1], "after":[3] }
+			{ "points":[14,3], "after":[1] },
+			{ "points":[15,2], "after":[2] },
+			{ "points":[16,1], "after":[3] },
+			{ "points":[8,17], "after":[6] },
+			{ "points":[9,18], "after":[7] },
+			{ "points":[10,19], "after":[8] }
 		]
 	}	
 }
