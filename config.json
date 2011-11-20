@@ -1,8 +1,9 @@
 {
-  "port" : 8080,
+  "port" : 80,
 	"debug" : 0,
+  "auto" : true,
 	"airport" : {
-		"height": 200,
+		"height" : 200,
 		"width": 200,
 		"bags" : [22,31,1,15],
 		"wagons" : [ 

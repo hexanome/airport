@@ -1,8 +1,9 @@
 <!doctype html>
 <meta charset=utf8>
-<title></title>
+<title>Airport</title>
 
-Failure.
+<p>Save: <input type=button onClick="window.open('/config.json','Download')" value=config.json id=save></p>
+<p>Load: <input type=file name=configfile></p>
 
 <script src=./js/jquery-1.6.2.min.js></script>
 <script src=./js/jquery-ui-1.8.16.custom.min.js></script>
@@ -11,48 +12,14 @@ Failure.
 <script src=./js/airport.js></script>
 <!-- packages will be included here -->
 
-  <svg>
-    
-    <path d="M0 30 L100 30 L200 400 L100 400" fill="white" stroke="black"/>
-    
-    <rect id="wagon" x="20" y="20" width="40" height="20" fill="green"/>
-    
-    <script>
-      var path = { points: [[0,30], [100,30], [200,400], [100,400]] },
-          wagon = document.getElementById('wagon');
-      
-      function setpos (object, x, y) {
-        object.setAttribute('x', x + '');
-        object.setAttribute('y', y + '');
-      }
-      
-      function move (object, from, length, whendone) {
-        if (length <= 0) { whendone? whendone():void 0; return; }
-        var halfwidth = Number(object.getAttribute('width'))/2,
-            halfheight = Number(object.getAttribute('height'))/2;
-        setpos(object, from[0] - halfwidth, from[1] - halfheight);
-        setTimeout(move, 30, object, [from[0]+1,from[1]], length-1, whendone);
-      };
-      
-      function alongsegment(object, segment, idx) {
-        idx = idx || 0;
-        var from = segment[idx],
-            to = segment[idx+1],
-            dx = to[0] - from[0],
-            dy = to[1] - from[1],
-            length = Math.sqrt(dx*dx + dy*dy);
-        move(wagon, segment[idx], length, function whendone() {
-          var from = segment[idx+1],
-              to = segment[idx+2],
-              angle = to[0] !== from[0]? Math.atan((to[1]-from[1]) / (to[0]-from[0])): Math.PI/2;
-          wagon.setAttribute('transform', 'rotate(' + (angle*180/Math.PI)
-                             + ' ' + path.points[1][0] + ' ' + path.points[1][1] + ')');
-          console.log(segment[idx+1]);
-          if (segment[idx+1]) alongsegment(object, segment, idx+1);
-        });
-      }
-      
-      alongsegment(wagon, path.points);
-    </script>
-    
-  </svg>
+<svg>
+  
+  <path id="p" d="M0 30 L100 30 L200 400 L200 450 L100 450" fill="white" stroke="black"/>
+  
+  <rect id="wagon" x="-10" y="-10" width="40" height="20" fill="green">
+    <animateMotion id="wagon" calcMode="spline" dur="7s" repeatCount="1" rotate="auto">
+      <mpath xlink:href="#p"/>
+    </animateMotion>
+  </rect>
+
+</svg>
