@@ -2,8 +2,8 @@
 <meta charset=utf8>
 <title>Airport</title>
 
-<p>Save: <input type=button onclick="window.open('/config.json','Download')" value=config.json id=save></p>
-<p>Load: <input type=file name=configfile></p>
+<p>Save: <input type=button onclick="window.open('/config.json','Download')"
+  value=config.json id=save></p> <p>Load: <input type=file name=configfile></p>
 <input type=button onclick="changeColor('node0', 'red')" value=changeColor>
 <input type=button onclick="addWagon({})" value=addWagon>
 
@@ -15,21 +15,22 @@
 <!-- packages will be included here -->
 
 <svg>
-	{{-wagons|wagon|i;
-		<rect id="node{{=i|plain}}" x="{{=wagon.x|integer}}"
+  {{-wagons|wagon|i;
+    <rect id="node{{=i|plain}}" x="{{=wagon.x|integer}}"
         y="{{=wagon.y|integer}}" width="15" height="10" fill="green"></rect>
-	}}
-	{{-rails|rail|i;
-		<path id="p{{=i|plain}}" d="{{lrail}}" fill="white"
+  }}
+  {{-rails|rail|i;
+    <path id="p{{=i|plain}}" d="{{lrail}}" fill="transparent"
         stroke="black"></path>
-	}}    
-	{{-desks|desk|i;
-		<rect id="desk{{=i|plain}}" x="{{=desk.x|integer}}"
-        y="{{=desk.y|integer}}" width="20" height="20" fill="red"></rect>
-	}}
-	{{-slides|slide|i;
-		<rect id="slide{{=i|plain}}" x="{{=slide.x|integer}}"
+  }}    
+  {{-desks|desk|i;
+  <rect id="desk{{=i|plain}}"
+    x="{{=desk.x + desksize/2|integer}}" y="{{=desk.y + desksize/2|integer}}"
+    width="{{=desksize|integer}}" height="{{=desksize|integer}}"
+    fill="red"></rect> }}
+  {{-slides|slide|i;
+    <rect id="slide{{=i|plain}}" x="{{=slide.x|integer}}"
         y="{{=slide.y|integer}}" width="20" height="20" fill="blue"></rect>
-	}}
-	
+  }}
+  
 </svg>

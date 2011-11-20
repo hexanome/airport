@@ -50,12 +50,13 @@ function start(config) {
       wagons: config.airport.wagons,
       rails: config.airport.rails,
       desks: desks,
+      desksize: 20,
       slides: slides,
       nodes: config.airport.nodes
     };
   }
-  camp.handle('/index.html', handleindex);
-  camp.handle('/', handleindex);
+  camp.handle(/^\/index.html$/, handleindex);
+  camp.handle(/^\/$/, handleindex);
 
   // Display the current config as a JSON file
   camp.handle('/config.json', function(query, path) {
