@@ -55,7 +55,7 @@ function changeMode(auto) {
 //
 
 $(function () {
-  $("a[rel=popover]")
+  $("input[rel=popover]")
     .popover({
       offset: 10
     })
