@@ -33,6 +33,7 @@ function load(files) {
   reader.onload = function(e) {
     window.config = e.target.result;
     pushConfig();
+    location.reload(true);
   }
   reader.readAsText(file);
 }
