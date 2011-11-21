@@ -6,21 +6,25 @@
 
 function pullConfig() {
   Scout.send(function(query) {
-    console.log('pulling config');
     query.action = 'pullconfig';
     query.data = {lol:'bidon'};
     query.resp = function(config) {
       console.log('received config');
       window.config = config;
+      window.airport = config.airport;
+      wagoninit();
     }
   })();
 }
 
-function pushConfig() {
+function pushConfig(reload) {
   Scout.send(function(query){
     query.action = 'pushconfig';
-    query.data = window.config;
-  });
+    query.data = {config: window.config};
+    query.resp = function() {
+      if (reload) location.reload(true);
+    }
+  })();
 }
 
 function save() {
@@ -31,21 +35,20 @@ function load(files) {
   var file = files[0];
   var reader = new FileReader();
   reader.onload = function(e) {
-    window.config = e.target.result;
-    pushConfig();
-    location.reload(true);
+    window.config = JSON.parse(e.target.result);
+    pushConfig(true);
   }
   reader.readAsText(file);
+}
+
+function changeMode(auto) {
+  window.config.auto = auto;
+  pushConfig();
 }
 
 
 // Graphical updates.
 //
-
-function changeColor(id,color){
-  var node = document.getElementsByTagName("rect")[0];
-  node.setAttributeNS(null,"fill",color);
-}
 
 function addWagon(){
   var svg = document.getElementsByTagName("svg")[0];
@@ -57,7 +60,6 @@ function addWagon(){
   pushConfig();
 }
 
-window.changeColor = changeColor;
 window.addWagon = addWagon;
 
 addEventListener('load', function() {
@@ -113,19 +115,94 @@ function movewagon (wagonidx, railidx) {
   alongsegment(domwagon, datafrompath(domrail), 0.01);
 }
 
-// The following two functions will be terminated soon.
-// They will experience a tingling sensation and then death.
-function moveAlong(wagonidx, railidx) {
-  var domwagon = svgdoc.getElementById('wagon' + wagonidx),
-      domrail = svgdoc.getElementById('p' + railidx),
-      animation = domwagon.firstElementChild,
-      mpath = animation.firstElementChild;
-  mpath.setAttribute('xlink:href', '#p' + railidx);
-  animation.beginElement();
+// This variable holds data about the position of all wagons.
+// Each element of this list holds the dom element of the wagon,
+// and the rail index in which it is currently located, like so:
+// {dom:domwagon, railidx:railidx}.
+window.wagons = [];
+
+// Filling up wagons.
+// This happens as soon as I get the config file.
+function wagoninit() {
+  var nbwagons = config.airport.wagons.length,
+      domwagons = [],
+      i = 0;    // We use this little one a lot. Believe me.
+  // Getting all domwagons, in order.
+  for (i = 0; i < nbwagons; i++) {
+    domwagons.push(document.getElementById('wagon' + i));
+  }
+
+  // For what comes next, we need to get a list of {i:deskidx, desk:desk}.
+  var desks = [];
+  for (i = 0; i < nbwagons; i++) {
+    if (config.airport.nodes[i].type === 'desk') {
+      desks.push({i:i, desk:config.airport.nodes[i]});
+    }
+  }
+
+  // Choosing where to put the wagons -- one for each desk,
+  // the rest in the garage.
+  var nbdesks = desks.length,
+      domdesks = [];
+  for (i = 0; i < nbdesks; i++) {
+    domdesks.push(document.getElementById('desk' + i));
+  }
+  if (nbwagons < nbdesks) {
+    console.warn('Not enough wagons (%s) for all the desks (%s)!',
+        nbwagons, nbdesks);
+  }
+
+  var deskidx = nbdesks - 1;   // This goes through all desk indices.
+  for (i = 0; i < nbwagons; i++) {
+    if (deskidx >= 0) {
+      // TODO: find out the rail corresponding to a desk.
+      var railcorrespondingtodesk = config.airport.rails.filter(function (el) {
+        return el.points[0] === desks.i;
+      });
+      wagons.push({dom:domwagons[i], railidx:railcorrespondingtodesk});
+      deskidx--;
+    } else {
+      // We put the wagon in the first parking lot available.
+      // Let's first find this parking.
+      var parkingidx;
+      for (var j = 0; j < config.airport.nodes.length; j++) {
+        if (config.airport.nodes[j].type === 'parking') {
+          parkingidx = j;
+        }
+      }
+      if (parkingidx === undefined) {
+        throw new Error('No parking was found!');
+      }
+      wagons.push({dom:domwagons[i], railidx:parkingidx});
+    }
+  }
+
+  // Put every wagon at its rightful place.
+  positionwagonsatinit(wagons);
 }
 
-function moveAround(wagonidx) {
-  var wagon = config.airport.wagon[wagonidx];
+function positionwagonsatinit(wagons) {
+  for (var i = 0; i < wagons.length; i++) {
+    var wagon = wagons[i],
+        node = airport.nodes[airport.rails[wagon.railidx].points[0]];
+    setpos(wagon.dom, node.x, node.y);
+  }
 }
+
+
+// Wagon control.
+//
+
+
+// Initialization code:
+// Each desk must have a wagon.
+
+function filldesks () {
+  var desks = config.airport.nodes.filter(function (el) {
+    return el.desk
+  });
+}
+
+
 
 // vim: ts=8 et

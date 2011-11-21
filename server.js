@@ -17,8 +17,9 @@ function start(config) {
   });
   
   // Overwrite configuration by Ajax
-  camp.add('pushconfig', function(newconfig) {
-    config = newconfig;
+  camp.add('pushconfig', function(data) {
+    config = data.config;
+    return;
   });
 
   camp.Plate.macros['l'] = function ( literal, params ) {

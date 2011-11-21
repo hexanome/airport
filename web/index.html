@@ -15,10 +15,20 @@
   </div>
 </div>
 
-<div class="container">
-<input type=button class="btn primary" value=Save onclick="save()">
-<input type=file id=file onchange="load(this.files)">
+<br>
 
+<div class="container">
+<p>Mode <select onchange="changeMode(this.options[this.selectedIndex].innerHTML==='auto')">
+  <option>auto</option>
+  <option>manuel</option>
+</select></p>
+<p>Save <input type=button class="btn primary" value=config.json onclick="save()"></p>
+<p>Load <input type=file id=file onchange="load(this.files)"></p>
+</div>
+
+<br>
+
+<div class="container">
 <svg height={{=h|integer}} width={{=w|integer}}>
 	{{-garages|garage|i;
 		<rect id="garage"
