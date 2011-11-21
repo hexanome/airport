@@ -15,12 +15,12 @@ function pullConfig() {
   })();
 }
 
-function pushConfig() {
+function pushConfig(reload) {
   Scout.send(function(query){
     query.action = 'pushconfig';
     query.data = {config: window.config};
     query.resp = function() {
-      location.reload(true);
+      if (reload) location.reload(true);
     }
   })();
 }
@@ -34,9 +34,14 @@ function load(files) {
   var reader = new FileReader();
   reader.onload = function(e) {
     window.config = JSON.parse(e.target.result);
-    pushConfig();
+    pushConfig(true);
   }
   reader.readAsText(file);
+}
+
+function changeMode(auto) {
+  window.config.auto = auto;
+  pushConfig();
 }
 
 
