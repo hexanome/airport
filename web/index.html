@@ -20,10 +20,18 @@
 <input type=file id=file onchange="load(this.files)">
 
 <svg height={{=h|integer}} width={{=w|integer}}>
+	{{-garages|garage|i;
+		<rect id="garage"
+			x="{{=garage.x*globalsize - 10|integer}}"
+			y="{{=garage.y*globalsize - 10|integer}}"
+      width="20" height="20"
+      fill="pink"></rect>
+	}}
   {{-wagons|wagon|i;
-    <rect id="wagon{{=i|plain}}" 
-      x="{{=wagon.x*globalsize|integer}}" y="{{=wagon.y*globalsize|integer}}" 
-      width="15" height="10" fill="green"></rect>1
+		<rect id="wagon{{=i|plain}}" 
+			x="{{=wagon.x*globalsize - 15/2|integer}}" 
+			y="{{=wagon.y*globalsize - 10/2|integer}}" 
+			width="15" height="10" fill="green"></rect>1
   }}
   {{-rails|rail|i;
     <path id="p{{=i|plain}}" d="{{lrail}}" fill="rgba(0,0,0,0)"
@@ -31,15 +39,15 @@
   }}    
   {{-desks|desk|i;
     <rect id="desk{{=i|plain}}"
-      x="{{=desk.x*globalsize - desksize/2|integer}}"
-      y="{{=desk.y*globalsize - desksize/2|integer}}"
+			x="{{=desk.x*globalsize - desksize/2|integer}}"
+	 	  y="{{=desk.y*globalsize - desksize/2|integer}}"
       width="{{=desksize|integer}}" height="{{=desksize|integer}}"
       fill="red"></rect>
   }}
   {{-slides|slide|i;
-    <rect id="slide{{=i|plain}}"
-      x="{{=slide.x*globalsize - slidesize/2|integer}}"
-      y="{{=slide.y*globalsize - slidesize/2|integer}}"
+		<rect id="slide{{=i|plain}}"
+			x="{{=slide.x*globalsize - slidesize/2|integer}}"
+			y="{{=slide.y*globalsize - slidesize/2|integer}}"
       width="{{=slidesize|integer}}" height="{{=slidesize|integer}}"
       fill="blue"></rect>
   }}

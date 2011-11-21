@@ -41,6 +41,7 @@ function start(config) {
     var slides = {};
     var treads = {};
     var carousels = {};
+    var garages = {};
     for (var i in config.airport.nodes){
       if (config.airport.nodes[i].type === "desk") {
         desks[i] = config.airport.nodes[i];
@@ -54,6 +55,9 @@ function start(config) {
       if (config.airport.nodes[i].type === "carousel") {
         carousels[i] = config.airport.nodes[i];
       }
+      if (config.airport.nodes[i].type === "garage") {
+        garages[i] = config.airport.nodes[i];
+      }
     }
     return {
       wagons: config.airport.wagons,
@@ -66,6 +70,7 @@ function start(config) {
       slides: slides,
       treads: treads,
       carousels: carousels, 
+      garages: garages,
       globalsize: config.airport.globalsize,
       w: config.airport.width,
       h: config.airport.height,
