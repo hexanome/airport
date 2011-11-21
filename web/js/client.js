@@ -6,7 +6,6 @@
 
 function pullConfig() {
   Scout.send(function(query) {
-    console.log('pulling config');
     query.action = 'pullconfig';
     query.data = {lol:'bidon'};
     query.resp = function(config) {
@@ -19,8 +18,11 @@ function pullConfig() {
 function pushConfig() {
   Scout.send(function(query){
     query.action = 'pushconfig';
-    query.data = window.config;
-  });
+    query.data = {config: window.config};
+    query.resp = function() {
+      location.reload(true);
+    }
+  })();
 }
 
 function save() {
@@ -31,9 +33,8 @@ function load(files) {
   var file = files[0];
   var reader = new FileReader();
   reader.onload = function(e) {
-    window.config = e.target.result;
+    window.config = JSON.parse(e.target.result);
     pushConfig();
-    location.reload(true);
   }
   reader.readAsText(file);
 }
