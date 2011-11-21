@@ -60,23 +60,72 @@ function addWagon(){
 window.changeColor = changeColor;
 window.addWagon = addWagon;
 
-document.addEventListener('load', function() {
+addEventListener('load', function() {
   pullConfig();
 }, false);
 
 
-// Wagon movements.
+// Wagon movements (UI primitives).
 //
 
+function setpos (object, x, y) {
+  object.setAttribute('x', x + '');
+  object.setAttribute('y', y + '');
+}
+
+// speed is given in pixels / milliseconds.
+function move (object, from, length, speed, whendone) {
+  if (length <= 0) { whendone? whendone():void 0; return; }
+  var halfwidth = Number(object.getAttribute('width')) / 2,
+      halfheight = Number(object.getAttribute('height')) / 2;
+  setpos(object, from[0] - halfwidth, from[1] - halfheight);
+  setTimeout(move, 1 / speed, object,
+      [from[0] + 1,from[1]], length - 1, speed, whendone);
+};
+
+function alongsegment (object, segment, speed, idx) {
+  idx = idx || 0;
+  var from = segment[idx],
+      to = segment[idx + 1],
+      dx = to[0] - from[0],
+      dy = to[1] - from[1],
+      length = Math.sqrt(dx * dx + dy * dy),
+      angle = Math.atan2(to[1] - from[1], to[0] - from[0]);
+  object.setAttribute('transform', 'rotate(' + angle * 180 / Math.PI
+                     + ' ' + from[0] + ' ' + from[1] + ')');
+  move(object, segment[idx], length, speed, function whendone() {
+    if (!segment[idx + 2]) return;
+    alongsegment(object, segment, speed, idx + 1);
+  });
+}
+
+// This function takes a <path d="..."> and converts it to a series of points if
+// said <path d="..."> contains nothing but M and L operations.
+function datafrompath (path) {
+  return path.getAttribute('d').match(/[\d\.]+\s+[\d\.]+/g).map(function(el) {
+    return el.split(/\s+/).map(function(num){ return Number(num); });
+  });
+}
+
+function movewagon (wagonidx, railidx) {
+  var domwagon = document.getElementById('wagon' + wagonidx),
+      domrail = document.getElementById('p' + railidx);
+  alongsegment(domwagon, datafrompath(domrail), 0.01);
+}
+
+// The following two functions will be terminated soon.
+// They will experience a tingling sensation and then death.
 function moveAlong(wagonidx, railidx) {
-  var wagon = config.airport.wagon[wagonidx],
-      rail = config.airport.rails[railidx],
-      // What nodes does that rail come from?
-      startnode = config.airport.nodes[rail.points[0]],
-      endnode = config.airport.nodes[rail.points];
+  var domwagon = svgdoc.getElementById('wagon' + wagonidx),
+      domrail = svgdoc.getElementById('p' + railidx),
+      animation = domwagon.firstElementChild,
+      mpath = animation.firstElementChild;
+  mpath.setAttribute('xlink:href', '#p' + railidx);
+  animation.beginElement();
 }
 
 function moveAround(wagonidx) {
   var wagon = config.airport.wagon[wagonidx];
 }
 
+// vim: ts=8 et

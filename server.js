@@ -84,3 +84,5 @@ function start(config) {
   });
   
 })();
+
+// vim: ts=8 et
