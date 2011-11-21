@@ -8,6 +8,8 @@
     "width": 500,
 		"desksize" : 10,
 		"slidesize" : 10,
+		"treadsize" : 10,
+		"carouselsize" : 10,
     "bags" : [
 			{ "id":22, "dest":17 },
 			{ "id":31, "dest":18 },
@@ -37,8 +39,8 @@
       { "x":20,"y":100,"type":"branch" }, 
       { "x":140,"y":10,"type":"desk" },
       { "x":120,"y":10,"type":"desk" },
-      { "x":100,"y":10,"type":"desk" },
-      { "x":100,"y":140,"type":"slide" }, 
+      { "x":100,"y":15,"type":"carousel" },
+      { "x":100,"y":135,"type":"tread" }, 
       { "x":120,"y":140,"type":"slide" }, 
       { "x":140,"y":140,"type":"slide" }
     ],
@@ -53,12 +55,12 @@
       { "points":[9,10], "after":[8] },
       { "points":[10,11,4], "after":[0] },
       { "points":[5,12,13,6], "after":[5] },
-      { "points":[3,14,3], "after":[1] },
-      { "points":[2,15,2], "after":[2] },
-      { "points":[1,16,1], "after":[3] },
-      { "points":[8,17,8], "after":[6] },
-      { "points":[9,18,9], "after":[7] },
-      { "points":[10,19,10], "after":[8] }
+      { "points":[14,3], "after":[1] },
+      { "points":[15,2], "after":[2] },
+      { "points":[1,16], "after":[3] },
+      { "points":[17,8], "after":[6] },
+      { "points":[9,18], "after":[] },
+      { "points":[10,19], "after":[] }
     ]
   }  
 }
