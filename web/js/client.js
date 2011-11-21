@@ -12,6 +12,7 @@ function pullConfig() {
     query.resp = function(config) {
       console.log('received config');
       window.config = config;
+      window.airport = config.airport;
       wagoninit();
     }
   })();
@@ -110,32 +111,75 @@ function movewagon (wagonidx, railidx) {
 
 // This variable holds data about the position of all wagons.
 // Each element of this list holds the dom element of the wagon,
-// and the rail index in which it is currently located.
+// and the rail index in which it is currently located, like so:
+// {dom:domwagon, railidx:railidx}.
 window.wagons = [];
 
 // Filling up wagons.
 // This happens as soon as I get the config file.
 function wagoninit() {
   var nbwagons = config.airport.wagons.length,
-      domwagons = [];
+      domwagons = [],
+      i = 0;    // We use this little one a lot. Believe me.
   // Getting all domwagons, in order.
-  for (var i = 0; i < nbwagons; i++) {
+  for (i = 0; i < nbwagons; i++) {
     domwagons.push(document.getElementById('wagon' + i));
   }
+
+  // For what comes next, we need to get a list of {i:deskidx, desk:desk}.
+  var desks = [];
+  for (i = 0; i < nbwagons; i++) {
+    if (config.airport.nodes[i].type === 'desk') {
+      desks.push({i:i, desk:config.airport.nodes[i]});
+    }
+  }
+
   // Choosing where to put the wagons -- one for each desk,
   // the rest in the garage.
-  var nbdesks = config.airport.desks.length,
+  var nbdesks = desks.length,
       domdesks = [];
-  for (var i = 0; i < nbdesks; i++) {
+  for (i = 0; i < nbdesks; i++) {
     domdesks.push(document.getElementById('desk' + i));
   }
   if (nbwagons < nbdesks) {
     console.warn('Not enough wagons (%s) for all the desks (%s)!',
         nbwagons, nbdesks);
   }
-  for (var i = 0; i < nbwagons; i++) {
-    // TODO: find out the rail corresponding to a desk.
-    wagons.push([domwagons[i], ]);
+
+  var deskidx = nbdesks - 1;   // This goes through all desk indices.
+  for (i = 0; i < nbwagons; i++) {
+    if (deskidx >= 0) {
+      // TODO: find out the rail corresponding to a desk.
+      var railcorrespondingtodesk = config.airport.rails.filter(function (el) {
+        return el.points[0] === desks.i;
+      });
+      wagons.push({dom:domwagons[i], railidx:railcorrespondingtodesk});
+      deskidx--;
+    } else {
+      // We put the wagon in the first parking lot available.
+      // Let's first find this parking.
+      var parkingidx;
+      for (var j = 0; j < config.airport.nodes.length; j++) {
+        if (config.airport.nodes[j].type === 'parking') {
+          parkingidx = j;
+        }
+      }
+      if (parkingidx === undefined) {
+        throw new Error('No parking was found!');
+      }
+      wagons.push({dom:domwagons[i], railidx:parkingidx});
+    }
+  }
+
+  // Put every wagon at its rightful place.
+  positionwagonsatinit(wagons);
+}
+
+function positionwagonsatinit(wagons) {
+  for (var i = 0; i < wagons.length; i++) {
+    var wagon = wagons[i],
+        node = airport.nodes[airport.rails[wagon.railidx].points[0]];
+    setpos(wagon.dom, node.x, node.y);
   }
 }
 
