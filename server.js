@@ -22,12 +22,13 @@ function start(config) {
   });
 
   camp.Plate.macros['l'] = function ( literal, params ) {
+		var gs=config.airport.globalsize;
     var rail = literal[params[0]];
-    var nl = "M" + (literal.nodes[rail.points[0]].x - 0.5) + " "
-        + (literal.nodes[rail.points[0]].y - 0.5);
+    var nl = "M" + (literal.nodes[rail.points[0]].x*gs - 0.5) + " "
+        + (literal.nodes[rail.points[0]].y*gs - 0.5);
     for (var i=1; i<rail.points.length; i++) {
-      nl += " L" + (literal.nodes[rail.points[i]].x - 0.5) + " "
-          + (literal.nodes[rail.points[i]].y - 0.5);
+      nl += " L" + (literal.nodes[rail.points[i]].x*gs - 0.5) + " "
+          + (literal.nodes[rail.points[i]].y*gs - 0.5);
     }
     return nl;
   };
@@ -50,9 +51,12 @@ function start(config) {
       wagons: config.airport.wagons,
       rails: config.airport.rails,
       desks: desks,
-      desksize: 10,
-      slidesize: 10,
+      desksize: config.airport.desksize,
+      slidesize: config.airport.slidesize,
       slides: slides,
+			globalsize: config.airport.globalsize,
+			w : config.airport.width,
+			h : config.airport.height,
       nodes: config.airport.nodes
     };
   }

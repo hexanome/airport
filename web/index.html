@@ -2,42 +2,54 @@
 <meta charset=utf8>
 <title>Airport</title>
 
-<p>Save: <input type=button onclick="window.open('/config.json','Download')"
-  value=config.json id=save></p> <p>Load: <input type=file name=configfile></p>
-<input type=button onclick="changeColor('node0', 'red')" value=changeColor>
-<input type=button onclick="addWagon({})" value=addWagon>
+<div class="topbar">
+  <div class="fill">
+    <div class="container">
+    <a class="brand" href="#"><img src="./img/logo.png"></a>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Account</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    </div>
+  </div>
+</div>
 
-<script src=./js/jquery-1.6.2.min.js></script>
-<script src=./js/jquery-ui-1.8.16.custom.min.js></script>
-<script src=./js/scout.js></script>
-<script src=./js/client.js></script>
-<script src=./js/airport.js></script>
-<!-- packages will be included here -->
+<div class="container">
+<input type=button class="btn primary" value=Save onclick="save()">
+<input type=file id=file onchange="load(this.files)">
 
-<svg>
+<svg height={{=h|integer}} width={{=w|integer}}>
   {{-wagons|wagon|i;
-    <rect id="node{{=i|plain}}" x="{{=wagon.x|integer}}"
-          y="{{=wagon.y|integer}}" width="15" height="10" fill="green">
-      <animateMotion calcMode="spline" dur="7s" repeatCount="1"
-                     rotate="auto">
-        <mpath xlink:href="#"/>
-      </animateMotion>
-    </rect>
+		<rect id="wagon{{=i|plain}}" 
+			x="{{=wagon.x*globalsize|integer}}" y="{{=wagon.y*globalsize|integer}}" 
+			width="15" height="10" fill="green"></rect>1
   }}
   {{-rails|rail|i;
     <path id="p{{=i|plain}}" d="{{lrail}}" fill="rgba(0,0,0,0)"
       stroke="black"/>
   }}    
   {{-desks|desk|i;
-  <rect id="desk{{=i|plain}}" x="{{=desk.x - desksize/2|integer}}"
-    y="{{=desk.y - desksize/2|integer}}"
-    width="{{=desksize|integer}}" height="{{=desksize|integer}}"
-    fill="red"></rect>
+    <rect id="desk{{=i|plain}}"
+			x="{{=desk.x*globalsize - desksize/2|integer}}"
+	 	  y="{{=desk.y*globalsize - desksize/2|integer}}"
+      width="{{=desksize|integer}}" height="{{=desksize|integer}}"
+      fill="red"></rect>
   }}
   {{-slides|slide|i;
-  <rect id="slide{{=i|plain}}" x="{{=slide.x - slidesize/2|integer}}"
-    y="{{=slide.y - slidesize/2|integer}}"
-    width="{{=slidesize|integer}}" height="{{=slidesize|integer}}"
-    fill="blue"></rect>
+		<rect id="slide{{=i|plain}}"
+			x="{{=slide.x*globalsize - slidesize/2|integer}}"
+			y="{{=slide.y*globalsize - slidesize/2|integer}}"
+      width="{{=slidesize|integer}}" height="{{=slidesize|integer}}"
+      fill="blue"></rect>
   }}
 </svg>
+</div>
+
+<link rel="stylesheet" href="./css/style.css">
+<script src=./js/jquery-1.6.2.min.js></script>
+<script src=./js/jquery-ui-1.8.16.custom.min.js></script>
+<script src=./js/scout.js></script>
+<script src=./js/client.js></script>
+<script src=./js/airport.js></script>
+<!-- packages will be included here -->

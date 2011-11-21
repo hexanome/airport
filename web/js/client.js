@@ -23,6 +23,20 @@ function pushConfig() {
   });
 }
 
+function save() {
+  window.open('/config.json','Save As','height=400,width=400');
+}
+
+function load(files) {
+  var file = files[0];
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    window.config = e.target.result;
+    pushConfig();
+  }
+  reader.readAsText(file);
+}
+
 
 // Graphical updates.
 //
@@ -93,7 +107,7 @@ function datafrompath (path) {
 }
 
 function movewagon (wagonidx, railidx) {
-  var domwagon = document.getElementById('node' + wagonidx),
+  var domwagon = document.getElementById('wagon' + wagonidx),
       domrail = document.getElementById('p' + railidx);
   alongsegment(domwagon, datafrompath(domrail), 0.01);
 }
@@ -101,7 +115,7 @@ function movewagon (wagonidx, railidx) {
 // The following two functions will be terminated soon.
 // They will experience a tingling sensation and then death.
 function moveAlong(wagonidx, railidx) {
-  var domwagon = svgdoc.getElementById('node' + wagonidx),
+  var domwagon = svgdoc.getElementById('wagon' + wagonidx),
       domrail = svgdoc.getElementById('p' + railidx),
       animation = domwagon.firstElementChild,
       mpath = animation.firstElementChild;
