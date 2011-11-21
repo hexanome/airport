@@ -39,12 +39,20 @@ function start(config) {
     path[0] = '/index.html';
     var desks = {};
     var slides = {};
+    var treads = {};
+    var carousels = {};
     for (var i in config.airport.nodes){
       if (config.airport.nodes[i].type === "desk") {
         desks[i] = config.airport.nodes[i];
       }  
       if (config.airport.nodes[i].type === "slide") {
         slides[i] = config.airport.nodes[i];
+      }
+      if (config.airport.nodes[i].type === "tread") {
+        treads[i] = config.airport.nodes[i];
+      }
+      if (config.airport.nodes[i].type === "carousel") {
+        carousels[i] = config.airport.nodes[i];
       }
     }
     return {
@@ -53,10 +61,14 @@ function start(config) {
       desks: desks,
       desksize: config.airport.desksize,
       slidesize: config.airport.slidesize,
+      treadsize: config.airport.treadsize,
+      carouselsize: config.airport.carouselsize,
       slides: slides,
-			globalsize: config.airport.globalsize,
-			w : config.airport.width,
-			h : config.airport.height,
+      treads: treads,
+      carousels: carousels, 
+      globalsize: config.airport.globalsize,
+      w: config.airport.width,
+      h: config.airport.height,
       nodes: config.airport.nodes
     };
   }

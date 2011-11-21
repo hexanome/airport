@@ -43,8 +43,23 @@
       width="{{=slidesize|integer}}" height="{{=slidesize|integer}}"
       fill="blue"></rect>
   }}
+	{{-treads|tread|i;
+		<rect id="tread{{=i|plain}}"
+			x="{{=tread.x*globalsize - treadsize/2|integer}}"
+			y="{{=tread.y*globalsize - treadsize/2|integer}}"
+      width="{{=treadsize|integer}}" height="{{=treadsize|integer}}"
+      fill="yellow"></rect>
+	}}
+	{{-carousels|carousel|i;
+		<rect id="carousel{{=i|plain}}"
+			x="{{=carousel.x*globalsize - carouselsize/2|integer}}"
+			y="{{=carousel.y*globalsize - carouselsize/2|integer}}"
+      width="{{=carouselsize|integer}}" height="{{=carouselsize|integer}}"
+      fill="black"></rect>
+	}}
 </svg>
 </div>
+
 
 <link rel="stylesheet" href="./css/style.css">
 <script src=./js/jquery-1.6.2.min.js></script>
@@ -52,4 +67,5 @@
 <script src=./js/scout.js></script>
 <script src=./js/client.js></script>
 <script src=./js/airport.js></script>
+<script src=./js/dijkstra.js></script>
 <!-- packages will be included here -->
