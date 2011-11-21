@@ -9,7 +9,7 @@ var finit = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
 // contient les chaines des noeuds
 var elements = [[0,1,5],
-                [1,0,2],
+                [0,0,2],
                 [5,2,0]];
 		
 var nbnoeud = elements.length;
@@ -138,14 +138,21 @@ function distance(node1, node2){
 function getElems(elems,start,dest){
 	var temp=elems[0];
 	elems[0]=elems[start];
+	console.log(elems);
 	elems[start]=temp;
+	console.log(elems);
+	
 	temp=elems[elems.length-1];
+	console.log(elems);
 	elems[elems.length-1]=elems[dest];
+	console.log(elems);
 	elems[dest]=temp;
+	console.log(elems);
+
 	return elems;
 }
 
-function next(){
+function distances(){
 	var nodes=config.airport.nodes;
 	var rails=config.airport.rails;
 	var elems=[[]];
