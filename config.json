@@ -53,12 +53,12 @@
       { "points":[9,10], "after":[8] },
       { "points":[10,11,4], "after":[0] },
       { "points":[5,12,13,6], "after":[5] },
-      { "points":[14,3], "after":[1] },
-      { "points":[15,2], "after":[2] },
-      { "points":[16,1], "after":[3] },
-      { "points":[8,17], "after":[6] },
-      { "points":[9,18], "after":[7] },
-      { "points":[10,19], "after":[8] }
+      { "points":[3,14,3], "after":[1] },
+      { "points":[2,15,2], "after":[2] },
+      { "points":[1,16,1], "after":[3] },
+      { "points":[8,17,8], "after":[6] },
+      { "points":[9,18,9], "after":[7] },
+      { "points":[10,19,10], "after":[8] }
     ]
   }  
 }
