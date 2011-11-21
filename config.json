@@ -14,12 +14,18 @@
 			{ "id":815, "node":17 },
 			{ "id":316, "node":17 },
 			{ "id":627, "node":17 }
-		]
+		],
     "bags" : [
-			{ "id":22, "dest":17 },
-			{ "id":31, "dest":18 },
-			{ "id":1, "dest":17 },
-			{ "id":15, "dest":19 }
+			{ "id":22, "pos":15, "dest":18, "time":5 },
+			{ "id":31, "pos":14, "dest":19, "time":15 },
+			{ "id":1, "pos":15, "dest":19, "time":1 },
+			{ "id":84, "pos":15, "dest":19, "time":2 },
+			{ "id":21, "pos":14, "dest":18, "time":5 },
+			{ "id":12, "pos":14, "dest":18, "time":1 },
+			{ "id":45, "pos":17, "dest":16, "time":8 },
+			{ "id":24, "pos":15, "dest":18, "time":11 },
+			{ "id":8, "pos":14, "dest":19, "time":26 },
+			{ "id":4, "pos":15, "dest":18, "time":20 }
 		],
     "wagons" : [ 
       { "speed":3.14, "bags":1, "x":165, "y":45 },
