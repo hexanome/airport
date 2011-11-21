@@ -134,8 +134,8 @@ function wagoninit() {
 
   // For what comes next, we need to get a list of {i:deskidx, desk:desk}.
   var desks = [];
-  for (i = 0; i < nbwagons; i++) {
-    if (config.airport.nodes[i].type === 'desk') {
+  for (i = 0; i < airport.nodes.length; i++) {
+    if (airport.nodes[i].type === 'desk') {
       desks.push({i:i, desk:config.airport.nodes[i]});
     }
   }
@@ -152,28 +152,40 @@ function wagoninit() {
         nbwagons, nbdesks);
   }
 
-  var deskidx = nbdesks - 1;   // This goes through all desk indices.
+  var deskidx = nbdesks - 1,   // This goes through all desk indices.
+      railidx;
   for (i = 0; i < nbwagons; i++) {
     if (deskidx >= 0) {
-      // TODO: find out the rail corresponding to a desk.
-      var railcorrespondingtodesk = config.airport.rails.filter(function (el) {
-        return el.points[0] === desks.i;
-      });
-      wagons.push({dom:domwagons[i], railidx:railcorrespondingtodesk});
+      // Find out the rail corresponding to a desk.
+      for (var j = 0; j < airport.rails.length; j++) {
+        if (airport.rails[j].points[0] === desks[deskidx].i) {
+          ///console.log('rail',j,':', airport.rails[j],'is desk',desks[deskidx].i,'at',deskidx);
+          railidx = j;
+          break;
+        }
+      }
+      wagons.push({dom:domwagons[i], railidx:railidx});
       deskidx--;
     } else {
       // We put the wagon in the first parking lot available.
       // Let's first find this parking.
       var parkingidx;
-      for (var j = 0; j < config.airport.nodes.length; j++) {
-        if (config.airport.nodes[j].type === 'parking') {
+      for (var j = 0; j < airport.nodes.length; j++) {
+        if (airport.nodes[j].type === 'parking') {
           parkingidx = j;
         }
       }
       if (parkingidx === undefined) {
         throw new Error('No parking was found!');
       }
-      wagons.push({dom:domwagons[i], railidx:parkingidx});
+      // Let's now find the rail that starts with this parking.
+      for (var j = 0; j < airport.rails.length; j++) {
+        if (airport.rails[j].points[0] === parkingidx) {
+          railidx = j;
+          break;
+        }
+      }
+      wagons.push({dom:domwagons[i], railidx:railidx});
     }
   }
 
@@ -182,6 +194,7 @@ function wagoninit() {
 }
 
 function positionwagonsatinit(wagons) {
+  console.log(wagons);
   for (var i = 0; i < wagons.length; i++) {
     var wagon = wagons[i],
         node = airport.nodes[airport.rails[wagon.railidx].points[0]];

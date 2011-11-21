@@ -54,7 +54,7 @@
       { "x":100,"y":135,"type":"tread" }, 
       { "x":120,"y":140,"type":"slide" }, 
       { "x":140,"y":140,"type":"slide" },
-      { "x":190,"y":85,"type":"garage" }
+      { "x":190,"y":85,"type":"parking" }
     ],
     "rails" : [ 
       { "points":[4,3], "after":[1] },
