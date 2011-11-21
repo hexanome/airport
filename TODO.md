@@ -2,7 +2,7 @@
 - charger une config
   . une config simple
   . une config plus avancee
-- pouvoir changer de config a chaud
+. pouvoir changer de config a chaud
 - des chariots qui avancent à chaque top d'horloge
 - chariots se doublent pas
 - 2 modes interchangeables a chaud :

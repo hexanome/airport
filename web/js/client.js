@@ -27,6 +27,10 @@ function pushConfig(reload) {
   })();
 }
 
+addEventListener('load', function() {
+  pullConfig();
+}, false);
+
 function save() {
   window.open('/config.json','Save As','height=400,width=400');
 }
@@ -47,24 +51,18 @@ function changeMode(auto) {
 }
 
 
-// Graphical updates.
+// GUI.
 //
 
-function addWagon(){
-  var svg = document.getElementsByTagName("svg")[0];
-  var rect = document.getElementsByTagName("rect")[0].cloneNode();
-  rect.id =  'node' + window.config.airport.wagons.length;
-  svg.appendChild(rect);
-  var wagon = { "speed":0, "bags":0, "x":rect.x.baseVal.value , "y":rect.y.baseVal.value };
-  window.config.airport.wagons.push(wagon);
-  pushConfig();
-}
-
-window.addWagon = addWagon;
-
-addEventListener('load', function() {
-  pullConfig();
-}, false);
+$(function () {
+  $("input[rel=popover]")
+    .popover({
+      offset: 10
+    })
+    .click(function(e) {
+      e.preventDefault()
+    })
+})
 
 
 // Wagon movements (UI primitives).

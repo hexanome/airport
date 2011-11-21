@@ -135,24 +135,38 @@ function distance(node1, node2){
 	return Math.sqrt(Math.pow(node1.x-node2.x,2)+Math.pow(node1.y-node2.y,2))
 }
 
-function getElems(elems,start,dest){
-	var temp=elems[0];
-	elems[0]=elems[start];
-	console.log(elems);
-	elems[start]=temp;
-	console.log(elems);
-	
-	temp=elems[elems.length-1];
-	console.log(elems);
-	elems[elems.length-1]=elems[dest];
-	console.log(elems);
-	elems[dest]=temp;
-	console.log(elems);
+function reorderDistances(elems,start,dest){
+	var table=elems.slice(0);
+	var temp=table[0];
 
-	return elems;
+	//invert first line and start and last line and stop
+	table[0]=table[start];
+	table[start]=temp;
+	
+	temp=table[table.length-1];
+	table[table.length-1]=table[dest];
+	table[dest]=temp;
+
+	//invert first column and start and last column and stop
+	for (var i in table){
+		temp=table[i][0];
+		table[i][0]=table[i][start];
+		table[i][start]=temp;
+
+		temp=table[i][table[i].length-1];
+		table[i][table[i].length-1]=table[i][dest];
+		table[i][dest]=temp;
+	}
+	
+	return table;
 }
 
-function distances(){
+function display(table){
+	for (var i in table){
+		console.log(table[i]);
+	}
+}
+function findDistances(){
 	var nodes=config.airport.nodes;
 	var rails=config.airport.rails;
 	var elems=[[]];
@@ -171,6 +185,7 @@ function distances(){
 			}
 		}
 	}
+	elems.pop();
 	return elems;
 
 }

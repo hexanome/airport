@@ -22,7 +22,7 @@
   <option>auto</option>
   <option>manuel</option>
 </select></p>
-<p>Save <input type=button class="btn primary" value=config.json onclick="save()"></p>
+<p>Save <input type=button class="btn primary" value=config.json onclick="save()" rel="popover" title="Save the configuration file" data-content="Opens the current config.json in a window for you to save."></p>
 <p>Load <input type=file id=file onchange="load(this.files)"></p>
 </div>
 
@@ -78,12 +78,14 @@
 </svg>
 </div>
 
-
 <link rel="stylesheet" href="./css/style.css">
 <script src=./js/jquery-1.6.2.min.js></script>
 <script src=./js/jquery-ui-1.8.16.custom.min.js></script>
+<script src=./js/bootstrap-twipsy.js></script>
+<script src=./js/bootstrap-popover.js></script>
 <script src=./js/scout.js></script>
+
+<!-- Airport packages -->
 <script src=./js/client.js></script>
 <script src=./js/airport.js></script>
 <script src=./js/dijkstra.js></script>
-<!-- packages will be included here -->
