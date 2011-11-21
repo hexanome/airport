@@ -11,6 +11,7 @@ function pullConfig() {
     query.resp = function(config) {
       console.log('received config');
       window.config = config;
+      wagoninit();
     }
   })();
 }
@@ -48,11 +49,6 @@ function changeMode(auto) {
 // Graphical updates.
 //
 
-function changeColor(id,color){
-  var node = document.getElementsByTagName("rect")[0];
-  node.setAttributeNS(null,"fill",color);
-}
-
 function addWagon(){
   var svg = document.getElementsByTagName("svg")[0];
   var rect = document.getElementsByTagName("rect")[0].cloneNode();
@@ -63,7 +59,6 @@ function addWagon(){
   pushConfig();
 }
 
-window.changeColor = changeColor;
 window.addWagon = addWagon;
 
 addEventListener('load', function() {
@@ -119,19 +114,51 @@ function movewagon (wagonidx, railidx) {
   alongsegment(domwagon, datafrompath(domrail), 0.01);
 }
 
-// The following two functions will be terminated soon.
-// They will experience a tingling sensation and then death.
-function moveAlong(wagonidx, railidx) {
-  var domwagon = svgdoc.getElementById('wagon' + wagonidx),
-      domrail = svgdoc.getElementById('p' + railidx),
-      animation = domwagon.firstElementChild,
-      mpath = animation.firstElementChild;
-  mpath.setAttribute('xlink:href', '#p' + railidx);
-  animation.beginElement();
+// This variable holds data about the position of all wagons.
+// Each element of this list holds the dom element of the wagon,
+// and the rail index in which it is currently located.
+window.wagons = [];
+
+// Filling up wagons.
+// This happens as soon as I get the config file.
+function wagoninit() {
+  var nbwagons = config.airport.wagons.length,
+      domwagons = [];
+  // Getting all domwagons, in order.
+  for (var i = 0; i < nbwagons; i++) {
+    domwagons.push(document.getElementById('wagon' + i));
+  }
+  // Choosing where to put the wagons -- one for each desk,
+  // the rest in the garage.
+  var nbdesks = config.airport.desks.length,
+      domdesks = [];
+  for (var i = 0; i < nbdesks; i++) {
+    domdesks.push(document.getElementById('desk' + i));
+  }
+  if (nbwagons < nbdesks) {
+    console.warn('Not enough wagons (%s) for all the desks (%s)!',
+        nbwagons, nbdesks);
+  }
+  for (var i = 0; i < nbwagons; i++) {
+    // TODO: find out the rail corresponding to a desk.
+    wagons.push([domwagons[i], ]);
+  }
 }
 
-function moveAround(wagonidx) {
-  var wagon = config.airport.wagon[wagonidx];
+
+// Wagon control.
+//
+
+
+// Initialization code:
+// Each desk must have a wagon.
+
+function filldesks () {
+  var desks = config.airport.nodes.filter(function (el) {
+    return el.desk
+  });
 }
+
+
 
 // vim: ts=8 et

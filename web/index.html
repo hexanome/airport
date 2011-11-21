@@ -30,9 +30,17 @@
 
 <div class="container">
 <svg height={{=h|integer}} width={{=w|integer}}>
+	{{-garages|garage|i;
+		<rect id="garage"
+			x="{{=garage.x*globalsize - 10|integer}}"
+			y="{{=garage.y*globalsize - 10|integer}}"
+      width="20" height="20"
+      fill="pink"></rect>
+	}}
   {{-wagons|wagon|i;
 		<rect id="wagon{{=i|plain}}" 
-			x="{{=wagon.x*globalsize|integer}}" y="{{=wagon.y*globalsize|integer}}" 
+			x="{{=wagon.x*globalsize - 15/2|integer}}" 
+			y="{{=wagon.y*globalsize - 10/2|integer}}" 
 			width="15" height="10" fill="green"></rect>1
   }}
   {{-rails|rail|i;
