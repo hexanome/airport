@@ -17,23 +17,27 @@
 <svg>
   {{-wagons|wagon|i;
     <rect id="node{{=i|plain}}" x="{{=wagon.x|integer}}"
-        y="{{=wagon.y|integer}}" width="15" height="10" fill="green"></rect>
+          y="{{=wagon.y|integer}}" width="15" height="10" fill="green">
+      <animateMotion calcMode="spline" dur="7s" repeatCount="1"
+                     rotate="auto">
+        <mpath xlink:href="#"/>
+      </animateMotion>
+    </rect>
   }}
   {{-rails|rail|i;
     <path id="p{{=i|plain}}" d="{{lrail}}" fill="rgba(0,0,0,0)"
-        stroke="black"></path>
+      stroke="black"/>
   }}    
   {{-desks|desk|i;
-    <rect id="desk{{=i|plain}}"
-      x="{{=desk.x - desksize/2|integer}}" y="{{=desk.y - desksize/2|integer}}"
-      width="{{=desksize|integer}}" height="{{=desksize|integer}}"
-      fill="red"></rect>
+  <rect id="desk{{=i|plain}}" x="{{=desk.x - desksize/2|integer}}"
+    y="{{=desk.y - desksize/2|integer}}"
+    width="{{=desksize|integer}}" height="{{=desksize|integer}}"
+    fill="red"></rect>
   }}
   {{-slides|slide|i;
-  <rect id="slide{{=i|plain}}"
-      x="{{=slide.x - slidesize/2|integer}}" y="{{=slide.y - slidesize/2|integer}}"
-      width="{{=slidesize|integer}}" height="{{=slidesize|integer}}"
-       fill="blue"></rect>
+  <rect id="slide{{=i|plain}}" x="{{=slide.x - slidesize/2|integer}}"
+    y="{{=slide.y - slidesize/2|integer}}"
+    width="{{=slidesize|integer}}" height="{{=slidesize|integer}}"
+    fill="blue"></rect>
   }}
-  
 </svg>
