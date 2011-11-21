@@ -41,11 +41,6 @@ function load(files) {
 // Graphical updates.
 //
 
-function changeColor(id,color){
-  var node = document.getElementsByTagName("rect")[0];
-  node.setAttributeNS(null,"fill",color);
-}
-
 function addWagon(){
   var svg = document.getElementsByTagName("svg")[0];
   var rect = document.getElementsByTagName("rect")[0].cloneNode();
@@ -56,7 +51,6 @@ function addWagon(){
   pushConfig();
 }
 
-window.changeColor = changeColor;
 window.addWagon = addWagon;
 
 addEventListener('load', function() {
@@ -112,19 +106,10 @@ function movewagon (wagonidx, railidx) {
   alongsegment(domwagon, datafrompath(domrail), 0.01);
 }
 
-// The following two functions will be terminated soon.
-// They will experience a tingling sensation and then death.
-function moveAlong(wagonidx, railidx) {
-  var domwagon = svgdoc.getElementById('wagon' + wagonidx),
-      domrail = svgdoc.getElementById('p' + railidx),
-      animation = domwagon.firstElementChild,
-      mpath = animation.firstElementChild;
-  mpath.setAttribute('xlink:href', '#p' + railidx);
-  animation.beginElement();
-}
 
-function moveAround(wagonidx) {
-  var wagon = config.airport.wagon[wagonidx];
-}
+
+// 
+
+
 
 // vim: ts=8 et
