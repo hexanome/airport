@@ -10,6 +10,11 @@
 		"slidesize" : 10,
 		"treadsize" : 10,
 		"carouselsize" : 10,
+		"flights" : [
+			{ "id":815, "node":17 },
+			{ "id":316, "node":17 },
+			{ "id":627, "node":17 }
+		]
     "bags" : [
 			{ "id":22, "dest":17 },
 			{ "id":31, "dest":18 },
