@@ -12,6 +12,7 @@ function pullConfig() {
     query.resp = function(config) {
       console.log('received config');
       window.config = config;
+      wagoninit();
     }
   })();
 }
@@ -107,9 +108,50 @@ function movewagon (wagonidx, railidx) {
   alongsegment(domwagon, datafrompath(domrail), 0.01);
 }
 
+// This variable holds data about the position of all wagons.
+// Each element of this list holds the dom element of the wagon,
+// and the rail index in which it is currently located.
+window.wagons = [];
+
+// Filling up wagons.
+// This happens as soon as I get the config file.
+function wagoninit() {
+  var nbwagons = config.airport.wagons.length,
+      domwagons = [];
+  // Getting all domwagons, in order.
+  for (var i = 0; i < nbwagons; i++) {
+    domwagons.push(document.getElementById('wagon' + i));
+  }
+  // Choosing where to put the wagons -- one for each desk,
+  // the rest in the garage.
+  var nbdesks = config.airport.desks.length,
+      domdesks = [];
+  for (var i = 0; i < nbdesks; i++) {
+    domdesks.push(document.getElementById('desk' + i));
+  }
+  if (nbwagons < nbdesks) {
+    console.warn('Not enough wagons (%s) for all the desks (%s)!',
+        nbwagons, nbdesks);
+  }
+  for (var i = 0; i < nbwagons; i++) {
+    // TODO: find out the rail corresponding to a desk.
+    wagons.push([domwagons[i], ]);
+  }
+}
 
 
-// 
+// Wagon control.
+//
+
+
+// Initialization code:
+// Each desk must have a wagon.
+
+function filldesks () {
+  var desks = config.airport.nodes.filter(function (el) {
+    return el.desk
+  });
+}
 
 
 
