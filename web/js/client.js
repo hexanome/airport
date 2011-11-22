@@ -179,7 +179,10 @@ function decidewagon(wagonidefix) {
 
   // compute best move towards destination
   var nextPoint = choice(wagons[wagonidefix].railidx,wagons[wagonidefix].dest);
-  movewagon(wagonidefix,nextPoint);
+  movewagon(wagonidefix,nextPoint,function(){
+    if (window.config.auto) decidewagon(wagonidefix);
+    else asktheway(wagonidefix);
+  });
 }
 
 // Stop a wagon that is running (or do nothing if it is stopped already).
