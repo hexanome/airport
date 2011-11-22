@@ -13,7 +13,7 @@ function pullConfig() {
       window.config = config;
       window.airport = config.airport;
       wagoninit();
-      deskinit();
+      nodeinit();
       startSim();
     }
   })();
