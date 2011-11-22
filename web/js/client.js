@@ -275,6 +275,17 @@ function destroytriangles (wagonidx) {
   trirefcount[wagonidx] = 0;
 }
 
+function railbranches (nodeidx) {
+  var possiblerailidx = [],
+      possiblerails = airport.rails.filter(function (el, i) {
+        if (el.points[0] === nodeidx) {
+          possiblerailidx.push(i);
+          return true;
+        }
+      });
+  return [possiblerailidx, possiblerails];
+}
+
 function asktheway (wagonidx) {
   var domwagon = wagons[wagonidx].dom,
       x = +domwagon.getAttribute('x'),
@@ -284,13 +295,9 @@ function asktheway (wagonidx) {
   // We need to know what options the wagon has.
   var confrail = airport.rails[railidx],
       confnodeidx = confrail.points[confrail.points.length - 1],
-      possiblerailidx = [],
-      possiblerails = airport.rails.filter(function (el, i) {
-        if (el.points[0] === confnodeidx) {
-          possiblerailidx.push(i);
-          return true;
-        }
-      });
+      possibilities = railbranches(confnodeidx),
+      possiblerailidx = possibilities[0],
+      possiblerails = possibilities[1];
   //console.log(possiblerails);
 
   for (var i = 0; i < possiblerails.length; i++) {
@@ -317,7 +324,18 @@ function choosewagonpath (wagonidx, railidx) {
   destroytriangles(wagonidx);
   movewagon(wagonidx, railidx, function () {
     if (config.auto) {
-      asktheway(wagonidx);
+      // We'll ask the path iff there is more than one possibility.
+      var rail = airport.rails[railidx],
+          possibilities = railbranches(rail.points[rail.points.length-1]);
+          possiblerailidx = possibilities[0],
+          possiblerails = possibilities[1];
+      if (possiblerails.length === 1) {
+        choosewagonpath(wagonidx, possiblerailidx[0]);
+      } else if (possiblerails.length > 1) {
+        asktheway(wagonidx);
+      } else {
+        console.error('Wagon number', wagonidx, 'cannot go anywhere!');
+      }
     }
   });
 }
