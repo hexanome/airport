@@ -239,7 +239,7 @@ function nodeinit() {
 
   for ( var i in confignodes ) {
     var dom = document.getElementById(confignodes[i].type+i);
-    window.desks[i] = {dom: dom, bags: []};
+    window.nodes[i] = {dom: dom, bags: []};
   }
 }
 
