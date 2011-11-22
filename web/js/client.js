@@ -315,7 +315,11 @@ function asktheway (wagonidx) {
 function choosewagonpath (wagonidx, railidx) {
   ///console.log('CHOSEN: wagon', wagonidx,'and rail',railidx);
   destroytriangles(wagonidx);
-  movewagon(wagonidx, railidx);
+  movewagon(wagonidx, railidx, function () {
+    if (config.auto) {
+      asktheway(wagonidx);
+    }
+  });
 }
 
 
