@@ -110,6 +110,7 @@ function datafrompath (path) {
   });
 }
 
+// The whendone function takes the wagon index and the rail index.
 function movewagon (wagonidx, railidx, whendone) {
   var domwagon = document.getElementById('wagon' + wagonidx),
       domrail = document.getElementById('p' + railidx);
