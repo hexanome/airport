@@ -67,7 +67,8 @@ function start(config) {
       treads: treads,
       carousels: carousels,
       garages: garages,
-      nodes: config.airport.nodes
+      nodes: config.airport.nodes,
+      background: config.background
     };
   }
   camp.handle(/^\/index.html$/, handleindex);
