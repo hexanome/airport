@@ -13,6 +13,8 @@ function pullConfig() {
       window.config = config;
       window.airport = config.airport;
       wagoninit();
+      nodeinit();
+      startSim();
     }
   })();
 }
@@ -243,12 +245,15 @@ function positionwagonsatinit(wagons) {
 // Initialization code:
 // Each desk must have a wagon.
 
-function filldesks () {
-  var desks = config.airport.nodes.filter(function (el) {
-    return el.desk
-  });
+function nodeinit() {
+  
+  window.nodes = [];
+  var confignodes = window.config.airport.nodes;
+
+  for ( var i in confignodes ) {
+    var dom = document.getElementById(confignodes[i].type+i);
+    window.nodes[i] = {dom: dom, bags: []};
+  }
 }
-
-
 
 // vim: ts=8 et
