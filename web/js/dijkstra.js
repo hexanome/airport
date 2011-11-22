@@ -118,7 +118,7 @@ function calculChemin(elements){
 		
 		if (chemin[countc-1] !== -1){
 			
-		chemin[countc] = minligne((mincolonne(chemin[countc+1]))-1);
+			chemin[countc] = minligne((mincolonne(chemin[countc+1]))-1);
 		}
 		
 		if (chemin[countc] === 0) break;
