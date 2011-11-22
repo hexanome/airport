@@ -1,6 +1,22 @@
 // Handling of graphical elements in index.html (svg manipulation, etc.)
 
 
+
+// Meaningful comment
+//
+
+function start() {
+  if ( window.config.auto ) addBag();
+  for ( var i in window.wagons ) {
+    if (window.config.auto) decidewagon(i);
+    else asktheway(i);
+  }
+}
+
+setTimeout(start,1000);
+
+
+
 // Getting and updating the configuration file.
 //
 
@@ -20,7 +36,6 @@ function loadconfig (config) {
   window.airport = config.airport;
   wagoninit();
   nodeinit();
-  startSim();
 }
 
 function pushConfig(reload) {
@@ -54,6 +69,7 @@ function load(files) {
 function changeMode(auto) {
   window.config.auto = auto;
   pushConfig();
+  if (auto) addBag();
 }
 
 
@@ -149,6 +165,35 @@ function movewagon (wagonidx, railidx, whendone) {
   });
 }
 
+// Decide where to go
+function decidewagon(wagonidefix) {
+
+  // if no destination, find one
+  if ( !wagons[wagonidefix].dest ) {
+    // if bag, deliver to destination
+    if ( wagons[wagonidefix].bag ) destination = wagons[idefix].bag.dest;
+    else {
+      for ( var i in window.nodes ) {
+        if ( window.nodes[i].bags.length > 0 ) {
+          wagons[wagonidefix].dest = i;
+          for ( var j in wagons ) {
+            if ( j !== wagonidefix && wagons[j].dest === wagons[wagonidefix].dest ) {
+              wagons[wagonidefix].dest = undefined;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // if still no destination, go back to parking
+  if ( !wagons[wagonidefix].dest ) wagons[wagonidefix].dest = window.parkingidx;
+
+  // compute best move towards destination
+  var nextPoint = choice(wagons[wagonidefix].railidx,wagons[wagonidefix].dest);
+  movewagon(wagonidefix,nextPoint);
+}
+
 // Stop a wagon that is running (or do nothing if it is stopped already).
 function stopwagon (wagonidx) {
   var wagon = wagons[wagonidx];
@@ -220,18 +265,18 @@ function wagoninit() {
     } else {
       // We put the wagon in the first parking lot available.
       // Let's first find this parking.
-      var parkingidx;
+      window.parkingidx;
       for (var j = 0; j < airport.nodes.length; j++) {
         if (airport.nodes[j].type === 'parking') {
-          parkingidx = j;
+          window.parkingidx = j;
         }
       }
-      if (parkingidx === undefined) {
+      if (window.parkingidx === undefined) {
         throw new Error('No parking was found!');
       }
       // Let's now find the rail that starts with this parking.
       for (var j = 0; j < airport.rails.length; j++) {
-        if (airport.rails[j].points[0] === parkingidx) {
+        if (airport.rails[j].points[0] === window.parkingidx) {
           railidx = j;
           break;
         }
@@ -335,7 +380,7 @@ function choosewagonpath (wagonidx, railidx) {
   ///console.log('CHOSEN: wagon', wagonidx,'and rail',railidx);
   destroytriangles(wagonidx);
   movewagon(wagonidx, railidx, function () {
-    if (config.auto) {
+    if (!config.auto) {
       // We'll ask the path iff there is more than one possibility.
       var rail = airport.rails[railidx],
           possibilities = railbranches(rail.points[rail.points.length-1]);
@@ -349,7 +394,7 @@ function choosewagonpath (wagonidx, railidx) {
       } else {
         asktheway(wagonidx);
       }
-    }
+    } else decidewagon(wagonidx);
   });
 }
 

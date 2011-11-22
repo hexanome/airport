@@ -1,7 +1,7 @@
 {
   "port" : 80,
   "debug" : 10,
-  "auto" : false,
+  "auto" : true,
   "background": "/img/airport.png",
   "airport" : {
     "height" : 500,
