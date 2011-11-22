@@ -28,7 +28,17 @@ onclick="save()" rel="popover" title="Save the configuration file" data-content=
 </div>
 
 <br>
-
+<div class="container">
+<p>Start Point
+  <select size="1" class="btn">
+  <select/>
+</p>
+<p>End Point
+  <select size="1" class="btn">
+  <select/>
+</p>
+<p><input type="button" class="btn primary" value="Add Luggage" onclick=""></p>
+</div>
 <div class="container">
 <svg height={{=airport.height|integer}} width={{=airport.width|integer}} viewBox="0 0 {{=airport.height/airport.scale|integer}} {{=airport.width/airport.scale|integer}}">
 	{{-garages|garage|i;
@@ -49,28 +59,28 @@ onclick="save()" rel="popover" title="Save the configuration file" data-content=
       stroke="black"/>
   }}    
   {{-desks|desk|i;
-    <rect id="desk{{=i|plain}}"
+    <rect id="desk{{=i|plain}}" onclick="test()" class="btn"
 			x="{{=desk.x - airport.desksize/2|integer}}"
 	 	  y="{{=desk.y - airport.desksize/2|integer}}"
       width="{{=airport.desksize|integer}}" height="{{=airport.desksize|integer}}"
       fill="red"></rect>
   }}
   {{-slides|slide|i;
-		<rect id="slide{{=i|plain}}"
+		<rect id="slide{{=i|plain}}" onclick="test()" class="btn"
 			x="{{=slide.x - airport.slidesize/2|integer}}"
 			y="{{=slide.y - airport.slidesize/2|integer}}"
       width="{{=airport.slidesize|integer}}" height="{{=airport.slidesize|integer}}"
       fill="blue"></rect>
   }}
 	{{-treads|tread|i;
-		<rect id="tread{{=i|plain}}"
+		<rect id="tread{{=i|plain}}" onclick="test()" class="btn"
 			x="{{=tread.x - airport.treadsize/2|integer}}"
 			y="{{=tread.y - airport.treadsize/2|integer}}"
       width="{{=airport.treadsize|integer}}" height="{{=airport.treadsize|integer}}"
       fill="yellow"></rect>
 	}}
-	{{-carousels|carousel|i;
-		<rect id="carousel{{=i|plain}}"
+	{{-carousels|carousel|i; 
+		<rect id="carousel{{=i|plain}}" onclick="test()" class="btn"
 			x="{{=carousel.x - airport.carouselsize/2|integer}}"
 			y="{{=carousel.y - airport.carouselsize/2|integer}}"
       width="{{=airport.carouselsize|integer}}" height="{{=airport.carouselsize|integer}}"
