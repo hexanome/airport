@@ -10,13 +10,17 @@ function pullConfig() {
     query.data = {lol:'bidon'};
     query.resp = function(config) {
       console.log('received config');
-      window.config = config;
-      window.airport = config.airport;
-      wagoninit();
-      nodeinit();
-      startSim();
+      loadconfig(config);
     }
   })();
+}
+
+function loadconfig (config) {
+  window.config = config;
+  window.airport = config.airport;
+  wagoninit();
+  nodeinit();
+  startSim();
 }
 
 function pushConfig(reload) {
@@ -41,7 +45,7 @@ function load(files) {
   var file = files[0];
   var reader = new FileReader();
   reader.onload = function(e) {
-    window.config = JSON.parse(e.target.result);
+    loadconfig(JSON.parse(e.target.result));
     pushConfig(true);
   }
   reader.readAsText(file);
