@@ -79,7 +79,7 @@ function move (object, from, length, speed, whendone) {
   var halfwidth = Number(object.getAttribute('width')) / 2,
       halfheight = Number(object.getAttribute('height')) / 2;
   setpos(object, from[0] - halfwidth, from[1] - halfheight);
-  setTimeout(move, 1 / speed, object,
+  return setTimeout(move, 1 / speed, object,
       [from[0] + 1,from[1]], length - 1, speed, whendone);
 };
 
@@ -93,7 +93,7 @@ function alongsegment (object, segment, speed, whendone, idx) {
       angle = Math.atan2(to[1] - from[1], to[0] - from[0]);
   object.setAttribute('transform', 'rotate(' + angle * 180 / Math.PI
                      + ' ' + from[0] + ' ' + from[1] + ')');
-  move(object, segment[idx], length, speed, function whendone() {
+  return move(object, segment[idx], length, speed, function whendone() {
     if (!segment[idx + 2]) {
       whendone();
       return;
@@ -115,10 +115,18 @@ function movewagon (wagonidx, railidx, whendone) {
   var domwagon = document.getElementById('wagon' + wagonidx),
       domrail = document.getElementById('p' + railidx);
   wagons[wagonidx].railidx = railidx;
-  alongsegment(domwagon, datafrompath(domrail), airport.wagons[wagonidx].speed,
-      function () {
+  wagons[wagonidx].timeout = alongsegment(domwagon, datafrompath(domrail),
+      airport.wagons[wagonidx].speed, function () {
         whendone(wagonidx, railidx);
   });
+}
+
+// Stop a wagon that is running (or do nothing if it is stopped already).
+function stopwagon (wagonidx) {
+  var wagon = wagons[wagonidx];
+  if (wagon.timeout) {
+    clearTimeout(wagon.timeout);
+  }
 }
 
 // This variable holds data about the position of all wagons.
