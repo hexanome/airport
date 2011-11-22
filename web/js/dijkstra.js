@@ -161,6 +161,16 @@ function reorderDistances(elems,start,dest){
 	return table;
 }
 
+function inverse(elems){
+	var ne=[];
+	for (var i in elems){
+		ne[i]=[];
+		for (var j in elems[0]){
+			ne[i][j]=elems[j][i];
+		}
+	}
+	display(ne);
+}
 function display(table){
 	for (var i in table){
 		console.log(table[i]);
