@@ -83,8 +83,20 @@ $(function () {
     })
     .click(function(e) {
       e.preventDefault()
+    });
+  $("rect[rel=popover]")
+    .popover({
+      offset: 10
+    })
+    .click(function(e) {
+      e.preventDefault()
     })
 })
+
+function test(){
+  console.log("lolilol");
+  doc
+}
 
 
 // Wagon movements (UI primitives).
