@@ -329,12 +329,13 @@ function choosewagonpath (wagonidx, railidx) {
           possibilities = railbranches(rail.points[rail.points.length-1]);
           possiblerailidx = possibilities[0],
           possiblerails = possibilities[1];
-      if (possiblerails.length === 1) {
+      if (possiblerails.length === 1
+          && airport.nodes[possiblerails[0].points[0]].type === 'branch') {
         choosewagonpath(wagonidx, possiblerailidx[0]);
-      } else if (possiblerails.length > 1) {
-        asktheway(wagonidx);
-      } else {
+      } else if (possiblerails.length < 1) {
         console.error('Wagon number', wagonidx, 'cannot go anywhere!');
+      } else {
+        asktheway(wagonidx);
       }
     }
   });
