@@ -83,7 +83,7 @@ function move (object, from, length, speed, whendone) {
       [from[0] + 1,from[1]], length - 1, speed, whendone);
 };
 
-function alongsegment (object, segment, speed, idx) {
+function alongsegment (object, segment, speed, whendone, idx) {
   idx = idx || 0;
   var from = segment[idx],
       to = segment[idx + 1],
@@ -94,8 +94,11 @@ function alongsegment (object, segment, speed, idx) {
   object.setAttribute('transform', 'rotate(' + angle * 180 / Math.PI
                      + ' ' + from[0] + ' ' + from[1] + ')');
   move(object, segment[idx], length, speed, function whendone() {
-    if (!segment[idx + 2]) return;
-    alongsegment(object, segment, speed, idx + 1);
+    if (!segment[idx + 2]) {
+      whendone();
+      return;
+    }
+    alongsegment(object, segment, speed, whendone, idx + 1);
   });
 }
 
@@ -107,10 +110,13 @@ function datafrompath (path) {
   });
 }
 
-function movewagon (wagonidx, railidx) {
+function movewagon (wagonidx, railidx, whendone) {
   var domwagon = document.getElementById('wagon' + wagonidx),
       domrail = document.getElementById('p' + railidx);
-  alongsegment(domwagon, datafrompath(domrail), airport.wagons[wagonidx].speed);
+  alongsegment(domwagon, datafrompath(domrail), airport.wagons[wagonidx].speed,
+               function () {
+                whendone(wagonidx, railidx);
+               });
 }
 
 // This variable holds data about the position of all wagons.
