@@ -16,7 +16,7 @@ function start(config) {
     return config;
   });
   
-  // Overwrite configuscalen by Ajax
+  // Overwrite configuration by Ajax
   camp.add('pushconfig', function(data) {
     config = data.config;
     return;
