@@ -101,7 +101,7 @@ function calculChemin(elements){
 		
 		for (i = 0; i < 10; i++) {
 			console.log(colonne);
-			if ( minimum > tableau[colonne][i]) {
+			if ( colonne >= 0 && minimum > tableau[colonne][i]) {
 				minimum = tableau[colonne][i];
 				ligne = i;
 			}
