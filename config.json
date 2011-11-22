@@ -2,6 +2,7 @@
   "port" : 80,
   "debug" : 10,
   "auto" : false,
+  "background": "/img/airport.png",
   "airport" : {
     "height" : 500,
     "width": 500,
