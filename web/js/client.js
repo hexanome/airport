@@ -114,6 +114,7 @@ function datafrompath (path) {
 function movewagon (wagonidx, railidx, whendone) {
   var domwagon = document.getElementById('wagon' + wagonidx),
       domrail = document.getElementById('p' + railidx);
+  wagons[wagonidx].railidx = railidx;
   alongsegment(domwagon, datafrompath(domrail), airport.wagons[wagonidx].speed,
       function () {
         whendone(wagonidx, railidx);
