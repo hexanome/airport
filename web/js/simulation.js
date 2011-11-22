@@ -2,14 +2,20 @@
 
 var s = 0;
 
-(function addBag() {
-	for(var bag in  window.config.airport.bags){
-		if(bag.time === s)
-		var desk = document.getElementById("desk" + bag.pos);
-	
-	
-		
-	}
+function startSim() {
+  s = 0;
+  addBag();
+}
+
+function addBag() {
+  if ( window.config && window.config.auto ) {
+    var bags = window.config.airport.bags;
+    for(var i in bags ){
+      if(bags[i].time === s) {
+        window.nodes[bags[i].pos].bags.push(bags[i]);
+      }
+    }
+  }
   s++;
-	setTimeOut(addBag,1000);
-})();
+  setTimeout(addBag,1000);
+};
