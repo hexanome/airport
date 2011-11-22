@@ -79,14 +79,18 @@ function setpos (object, x, y) {
   object.setAttribute('y', y + '');
 }
 
+function setposcentered (object, x, y) {
+  var halfwidth = Number(object.getAttribute('width')) / 2,
+      halfheight = Number(object.getAttribute('height')) / 2;
+  setpos(object, x - halfwidth, y - halfheight);
+}
+
 // Speed is given in pixels / milliseconds.
 // Object is something of the form
 // {dom:dom element, timeout:number}.
 function move (object, from, length, speed, whendone) {
   if (length <= 0) { whendone? whendone():void 0; return; }
-  var halfwidth = Number(object.dom.getAttribute('width')) / 2,
-      halfheight = Number(object.dom.getAttribute('height')) / 2;
-  setpos(object.dom, from[0] - halfwidth, from[1] - halfheight);
+  setposcentered(object.dom, from[0], from[1]);
   object.startagain = [object, [from[0]+1, from[1]], length-1, speed, whendone];
   object.timeout = setTimeout(move, 1 / speed, object,
       [from[0] + 1,from[1]], length - 1, speed, whendone);
@@ -122,15 +126,15 @@ function datafrompath (path) {
 }
 
 // The whendone function takes the wagon index and the rail index.
-// Give it the wagon and rail indices, a function to be run when arrived, and an
-// optional initial offset of the wagon.
-function movewagon (wagonidx, railidx, whendone, initoffset) {
+// Give it the wagon and rail indices, anda function to be run when arrived.
+function movewagon (wagonidx, railidx, whendone) {
+  whendone = whendone || function(){};
   var domrail = document.getElementById('p' + railidx);
   wagons[wagonidx].railidx = railidx;
   alongsegment(wagons[wagonidx], datafrompath(domrail),
       airport.wagons[wagonidx].speed, function () {
         whendone(wagonidx, railidx);
-  }, initoffset);
+  });
 }
 
 // Stop a wagon that is running (or do nothing if it is stopped already).
@@ -195,7 +199,6 @@ function wagoninit() {
       // Find out the rail corresponding to a desk.
       for (var j = 0; j < airport.rails.length; j++) {
         if (airport.rails[j].points[0] === desks[deskidx].i) {
-          ///console.log('rail',j,':', airport.rails[j],'is desk',desks[deskidx].i,'at',deskidx);
           railidx = j;
           break;
         }
@@ -237,17 +240,108 @@ function positionwagonsatinit(wagons) {
         halfwidth = Number(wagon.dom.getAttribute('width')) / 2,
         halfheight = Number(wagon.dom.getAttribute('height')) / 2;
     setpos(wagon.dom, node.x - halfwidth, node.y - halfheight);
-    //setpos(wagon.dom, node.x, node.y);
   }
 }
 
 
-// Wagon control.
+
+// Manual mode.
 //
 
+// This creates a triangle and puts it at coordinates (x,y), given a choice id,
+// and hooks it up to the function `choosepath`.
+function createtriangle (x, y, wagonidx, railidx) {
+  var tri = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+  tri.setAttribute('points', x+','+(y-5)+' '+(7+x)+','+y+' '+x+','+(y+5));
+  tri.setAttribute('fill', '#cfbcf4');
+  tri.setAttribute('stroke', '#bface4');
+  if (trirefcount[wagonidx] === undefined)  trirefcount[wagonidx] = 0;
+  tri.setAttribute('id', 'triangle-wagon' + wagonidx + '-' +
+      trirefcount[wagonidx]++);
+  tri.setAttribute('onclick', 'choosewagonpath(' + wagonidx + ','
+        + railidx + ')');
+  document.getElementsByTagName('svg')[0].appendChild(tri);
+  return tri;
+}
 
-// Initialization code:
-// Each desk must have a wagon.
+var trirefcount = {};
+
+function destroytriangles (wagonidx) {
+  var tri;
+  for (var i = 0; i < trirefcount[wagonidx]; i++) {
+    tri = document.getElementById('triangle-wagon' + wagonidx + '-' + i);
+    document.getElementsByTagName('svg')[0].removeChild(tri);
+  }
+  trirefcount[wagonidx] = 0;
+}
+
+function railbranches (nodeidx) {
+  var possiblerailidx = [],
+      possiblerails = airport.rails.filter(function (el, i) {
+        if (el.points[0] === nodeidx) {
+          possiblerailidx.push(i);
+          return true;
+        }
+      });
+  return [possiblerailidx, possiblerails];
+}
+
+function asktheway (wagonidx) {
+  var domwagon = wagons[wagonidx].dom,
+      x = +domwagon.getAttribute('x'),
+      y = +domwagon.getAttribute('y'),
+      railidx = wagons[wagonidx].railidx;
+  
+  // We need to know what options the wagon has.
+  var confrail = airport.rails[railidx],
+      confnodeidx = confrail.points[confrail.points.length - 1],
+      possibilities = railbranches(confnodeidx),
+      possiblerailidx = possibilities[0],
+      possiblerails = possibilities[1];
+  //console.log(possiblerails);
+
+  for (var i = 0; i < possiblerails.length; i++) {
+    var rail = possiblerails[i];
+
+    // We will orient the triangle.
+    var point0 = airport.nodes[rail.points[0]],
+        point1 = airport.nodes[rail.points[1]],
+        from = [point0.x, point0.y],
+        to = [point1.x, point1.y],
+        dx = to[0] - from[0],
+        dy = to[1] - from[1],
+        length = Math.sqrt(dx * dx + dy * dy),
+        angle = Math.atan2(to[1] - from[1], to[0] - from[0]),
+        tri = createtriangle(from[0] + 7, from[1],
+            wagonidx, possiblerailidx[i]);
+    tri.setAttribute('transform', 'rotate(' + angle * 180 / Math.PI
+                     + ' ' + from[0] + ' ' + from[1] + ')');
+  }
+}
+
+function choosewagonpath (wagonidx, railidx) {
+  ///console.log('CHOSEN: wagon', wagonidx,'and rail',railidx);
+  destroytriangles(wagonidx);
+  movewagon(wagonidx, railidx, function () {
+    if (config.auto) {
+      // We'll ask the path iff there is more than one possibility.
+      var rail = airport.rails[railidx],
+          possibilities = railbranches(rail.points[rail.points.length-1]);
+          possiblerailidx = possibilities[0],
+          possiblerails = possibilities[1];
+      if (possiblerails.length === 1) {
+        choosewagonpath(wagonidx, possiblerailidx[0]);
+      } else if (possiblerails.length > 1) {
+        asktheway(wagonidx);
+      } else {
+        console.error('Wagon number', wagonidx, 'cannot go anywhere!');
+      }
+    }
+  });
+}
+
+
+// Initializing nodes.
 
 function nodeinit() {
   
