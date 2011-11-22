@@ -16,20 +16,19 @@ function start(config) {
     return config;
   });
   
-  // Overwrite configuration by Ajax
+  // Overwrite configuscalen by Ajax
   camp.add('pushconfig', function(data) {
     config = data.config;
     return;
   });
 
   camp.Plate.macros['l'] = function ( literal, params ) {
-		var gs=config.airport.globalsize;
     var rail = literal[params[0]];
-    var nl = "M" + (literal.nodes[rail.points[0]].x*gs - 0.5) + " "
-        + (literal.nodes[rail.points[0]].y*gs - 0.5);
+    var nl = "M" + (literal.airport.nodes[rail.points[0]].x - 0.5) + " "
+        + (literal.airport.nodes[rail.points[0]].y - 0.5);
     for (var i=1; i<rail.points.length; i++) {
-      nl += " L" + (literal.nodes[rail.points[i]].x*gs - 0.5) + " "
-          + (literal.nodes[rail.points[i]].y*gs - 0.5);
+      nl += " L" + (literal.airport.nodes[rail.points[i]].x - 0.5) + " "
+          + (literal.airport.nodes[rail.points[i]].y - 0.5);
     }
     return nl;
   };
@@ -60,21 +59,14 @@ function start(config) {
         garages[i] = config.airport.nodes[i];
       }
     }
+    
     return {
-      wagons: config.airport.wagons,
-      rails: config.airport.rails,
+      airport: config.airport,
       desks: desks,
-      desksize: config.airport.desksize,
-      slidesize: config.airport.slidesize,
-      treadsize: config.airport.treadsize,
-      carouselsize: config.airport.carouselsize,
       slides: slides,
       treads: treads,
-      carousels: carousels, 
+      carousels: carousels,
       garages: garages,
-      globalsize: config.airport.globalsize,
-      w: config.airport.width,
-      h: config.airport.height,
       nodes: config.airport.nodes
     };
   }

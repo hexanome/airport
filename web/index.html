@@ -22,57 +22,57 @@
   <option>auto</option>
   <option>manuel</option>
 </select></p>
-<p>Save <input type=button class="btn primary" value=config.json onclick="save()" rel="popover" title="Save the configuration file" data-content="Opens the current config.json in a window for you to save."></p>
+<p>Save <input type=button class="btn primary" value=config.json onclick="save()" rel="popover" title="Save the configuscalen file" data-content="Opens the current config.json in a window for you to save."></p>
 <p>Load <input type=file id=file onchange="load(this.files)"></p>
 </div>
 
 <br>
 
 <div class="container">
-<svg height={{=h|integer}} width={{=w|integer}}>
+<svg height={{=airport.height|integer}} width={{=airport.width|integer}} viewBox="0 0 {{=airport.height/airport.scale|integer}} {{=airport.width/airport.scale|integer}}">
 	{{-garages|garage|i;
 		<rect id="garage"
-			x="{{=garage.x*globalsize - 10|integer}}"
-			y="{{=garage.y*globalsize - 10|integer}}"
+			x="{{=garage.x - 10|integer}}"
+			y="{{=garage.y - 10|integer}}"
       width="20" height="20"
       fill="pink"></rect>
 	}}
-  {{-wagons|wagon|i;
+  {{-airport.wagons|wagon|i;
 		<rect id="wagon{{=i|plain}}" 
-			x="{{=wagon.x*globalsize - 15/2|integer}}" 
-			y="{{=wagon.y*globalsize - 10/2|integer}}" 
+			x="{{=wagon.x - 7|integer}}" 
+			y="{{=wagon.y - 5|integer}}" 
 			width="15" height="10" fill="green"></rect>
   }}
-  {{-rails|rail|i;
+  {{-airport.rails|rail|i;
     <path id="p{{=i|plain}}" d="{{lrail}}" fill="rgba(0,0,0,0)"
       stroke="black"/>
   }}    
   {{-desks|desk|i;
     <rect id="desk{{=i|plain}}"
-			x="{{=desk.x*globalsize - desksize/2|integer}}"
-	 	  y="{{=desk.y*globalsize - desksize/2|integer}}"
-      width="{{=desksize|integer}}" height="{{=desksize|integer}}"
+			x="{{=desk.x - airport.desksize/2|integer}}"
+	 	  y="{{=desk.y - airport.desksize/2|integer}}"
+      width="{{=airport.desksize|integer}}" height="{{=airport.desksize|integer}}"
       fill="red"></rect>
   }}
   {{-slides|slide|i;
 		<rect id="slide{{=i|plain}}"
-			x="{{=slide.x*globalsize - slidesize/2|integer}}"
-			y="{{=slide.y*globalsize - slidesize/2|integer}}"
-      width="{{=slidesize|integer}}" height="{{=slidesize|integer}}"
+			x="{{=slide.x - airport.slidesize/2|integer}}"
+			y="{{=slide.y - airport.slidesize/2|integer}}"
+      width="{{=airport.slidesize|integer}}" height="{{=airport.slidesize|integer}}"
       fill="blue"></rect>
   }}
 	{{-treads|tread|i;
 		<rect id="tread{{=i|plain}}"
-			x="{{=tread.x*globalsize - treadsize/2|integer}}"
-			y="{{=tread.y*globalsize - treadsize/2|integer}}"
-      width="{{=treadsize|integer}}" height="{{=treadsize|integer}}"
+			x="{{=tread.x - airport.treadsize/2|integer}}"
+			y="{{=tread.y - airport.treadsize/2|integer}}"
+      width="{{=airport.treadsize|integer}}" height="{{=airport.treadsize|integer}}"
       fill="yellow"></rect>
 	}}
 	{{-carousels|carousel|i;
 		<rect id="carousel{{=i|plain}}"
-			x="{{=carousel.x*globalsize - carouselsize/2|integer}}"
-			y="{{=carousel.y*globalsize - carouselsize/2|integer}}"
-      width="{{=carouselsize|integer}}" height="{{=carouselsize|integer}}"
+			x="{{=carousel.x - airport.carouselsize/2|integer}}"
+			y="{{=carousel.y - airport.carouselsize/2|integer}}"
+      width="{{=airport.carouselsize|integer}}" height="{{=airport.carouselsize|integer}}"
       fill="black"></rect>
 	}}
 </svg>

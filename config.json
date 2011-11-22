@@ -3,9 +3,9 @@
   "debug" : 10,
   "auto" : true,
   "airport" : {
-		"globalsize" : 2,
     "height" : 500,
     "width": 500,
+    "scale": 2,
 		"desksize" : 10,
 		"slidesize" : 10,
 		"treadsize" : 10,

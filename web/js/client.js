@@ -69,8 +69,8 @@ $(function () {
 //
 
 function setpos (object, x, y) {
-  object.setAttribute('x', (x * airport.globalsize) + '');
-  object.setAttribute('y', (y * airport.globalsize) + '');
+  object.setAttribute('x', x + '');
+  object.setAttribute('y', y + '');
 }
 
 // speed is given in pixels / milliseconds.
@@ -195,8 +195,11 @@ function positionwagonsatinit(wagons) {
   console.log(wagons);
   for (var i = 0; i < wagons.length; i++) {
     var wagon = wagons[i],
-        node = airport.nodes[airport.rails[wagon.railidx].points[0]];
-    setpos(wagon.dom, node.x, node.y);
+        node = airport.nodes[airport.rails[wagon.railidx].points[0]],
+        halfwidth = Number(wagon.dom.getAttribute('width')) / 2,
+        halfheight = Number(wagon.dom.getAttribute('height')) / 2;
+    setpos(wagon.dom, node.x - halfwidth, node.y - halfheight);
+    //setpos(wagon.dom, node.x, node.y);
   }
 }
 
