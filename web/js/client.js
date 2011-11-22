@@ -75,16 +75,20 @@ function setpos (object, x, y) {
   object.setAttribute('y', y + '');
 }
 
-// speed is given in pixels / milliseconds.
+// Speed is given in pixels / milliseconds.
+// Object is something of the form
+// {dom:dom element, timeout:number}.
 function move (object, from, length, speed, whendone) {
   if (length <= 0) { whendone? whendone():void 0; return; }
-  var halfwidth = Number(object.getAttribute('width')) / 2,
-      halfheight = Number(object.getAttribute('height')) / 2;
-  setpos(object, from[0] - halfwidth, from[1] - halfheight);
-  setTimeout(move, 1 / speed, object,
+  var halfwidth = Number(object.dom.getAttribute('width')) / 2,
+      halfheight = Number(object.dom.getAttribute('height')) / 2;
+  setpos(object.dom, from[0] - halfwidth, from[1] - halfheight);
+  object.timeout = setTimeout(move, 1 / speed, object,
       [from[0] + 1,from[1]], length - 1, speed, whendone);
 };
 
+// object is something of the form
+// {dom:dom element, timeout:number}.
 function alongsegment (object, segment, speed, whendone, idx) {
   idx = idx || 0;
   var from = segment[idx],
@@ -93,9 +97,9 @@ function alongsegment (object, segment, speed, whendone, idx) {
       dy = to[1] - from[1],
       length = Math.sqrt(dx * dx + dy * dy),
       angle = Math.atan2(to[1] - from[1], to[0] - from[0]);
-  object.setAttribute('transform', 'rotate(' + angle * 180 / Math.PI
+  object.dom.setAttribute('transform', 'rotate(' + angle * 180 / Math.PI
                      + ' ' + from[0] + ' ' + from[1] + ')');
-  move(object, segment[idx], length, speed, function whendone() {
+  object.timeout = move(object, segment[idx], length, speed, function cb() {
     if (!segment[idx + 2]) {
       whendone();
       return;
@@ -112,13 +116,22 @@ function datafrompath (path) {
   });
 }
 
+// The whendone function takes the wagon index and the rail index.
 function movewagon (wagonidx, railidx, whendone) {
-  var domwagon = document.getElementById('wagon' + wagonidx),
-      domrail = document.getElementById('p' + railidx);
-  alongsegment(domwagon, datafrompath(domrail), airport.wagons[wagonidx].speed,
-               function () {
-                whendone(wagonidx, railidx);
-               });
+  var domrail = document.getElementById('p' + railidx);
+  wagons[wagonidx].railidx = railidx;
+  alongsegment(wagons[wagonidx], datafrompath(domrail),
+      airport.wagons[wagonidx].speed, function () {
+        whendone(wagonidx, railidx);
+  });
+}
+
+// Stop a wagon that is running (or do nothing if it is stopped already).
+function stopwagon (wagonidx) {
+  var wagon = wagons[wagonidx];
+  if (wagon.timeout) {
+    clearTimeout(wagon.timeout);
+  }
 }
 
 // This variable holds data about the position of all wagons.
