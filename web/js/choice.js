@@ -18,7 +18,7 @@ function choicerec(rail,dest,used,level){
 		  used[JSON.stringify(current)] = true;
 		  var ret = choicerec(current,dest,used,level+1);
 			if (ret) {
-				return (level === 0 ? current : true);
+				return (level === 0 ? i: true);
 			}
 		}
 	}

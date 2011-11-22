@@ -37,11 +37,11 @@ function start(config) {
   function handleindex(query, path) {
     console.log('templating index from', path[0]);
     path[0] = '/index.html';
-    var desks = {};
-    var slides = {};
-    var treads = {};
-    var carousels = {};
-    var garages = {};
+    var desks = {},
+        slides = {},
+        treads = {},
+        carousels = {},
+        garages = {};
     for (var i in config.airport.nodes){
       if (config.airport.nodes[i].type === "desk") {
         desks[i] = config.airport.nodes[i];
@@ -61,6 +61,7 @@ function start(config) {
     }
     
     return {
+      auto: config.auto,
       airport: config.airport,
       desks: desks,
       slides: slides,

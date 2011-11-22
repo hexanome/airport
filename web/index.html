@@ -19,8 +19,8 @@
 
 <div class="container">
 <p>Mode <select class="btn" onchange="changeMode(this.options[this.selectedIndex].innerHTML==='auto')">
-  <option>auto</option>
-  <option>manuel</option>
+  <option {{?auto|selected}}>auto</option>
+  <option {{?!auto|selected}}>manuel</option>
 </select></p>
 <p>Save <input type=button class="btn primary" value=config.json
 onclick="save()" rel="popover" title="Save the configuration file" data-content="Opens the current config.json in a window for you to save."></p>

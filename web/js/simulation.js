@@ -2,11 +2,6 @@
 
 var s = 0;
 
-function startSim() {
-  s = 0;
-  addBag();
-}
-
 function addBag() {
   if ( window.config && window.config.auto ) {
     var bags = window.config.airport.bags;
@@ -24,7 +19,7 @@ function addBag() {
         document.getElementsByTagName('svg')[0].appendChild(rect);
       }
     }
+    s++;
+    setTimeout(addBag,1000);
   }
-  s++;
-  setTimeout(addBag,1000);
 };
