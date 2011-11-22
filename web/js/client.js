@@ -110,7 +110,7 @@ function datafrompath (path) {
 function movewagon (wagonidx, railidx) {
   var domwagon = document.getElementById('wagon' + wagonidx),
       domrail = document.getElementById('p' + railidx);
-  alongsegment(domwagon, datafrompath(domrail), 0.01);
+  alongsegment(domwagon, datafrompath(domrail), airport.wagons[wagonidx].speed);
 }
 
 // This variable holds data about the position of all wagons.
