@@ -291,7 +291,7 @@ function asktheway (wagonidx) {
           return true;
         }
       });
-  console.log(possiblerails);
+  //console.log(possiblerails);
 
   for (var i = 0; i < possiblerails.length; i++) {
     var rail = possiblerails[i];
