@@ -195,7 +195,6 @@ function wagoninit() {
       // Find out the rail corresponding to a desk.
       for (var j = 0; j < airport.rails.length; j++) {
         if (airport.rails[j].points[0] === desks[deskidx].i) {
-          ///console.log('rail',j,':', airport.rails[j],'is desk',desks[deskidx].i,'at',deskidx);
           railidx = j;
           break;
         }
@@ -237,7 +236,6 @@ function positionwagonsatinit(wagons) {
         halfwidth = Number(wagon.dom.getAttribute('width')) / 2,
         halfheight = Number(wagon.dom.getAttribute('height')) / 2;
     setpos(wagon.dom, node.x - halfwidth, node.y - halfheight);
-    //setpos(wagon.dom, node.x, node.y);
   }
 }
 
