@@ -81,6 +81,7 @@ function move (object, from, length, speed, whendone) {
   var halfwidth = Number(object.dom.getAttribute('width')) / 2,
       halfheight = Number(object.dom.getAttribute('height')) / 2;
   setpos(object.dom, from[0] - halfwidth, from[1] - halfheight);
+  object.startagain = [object, [from[0]+1, from[1]], length-1, speed, whendone];
   object.timeout = setTimeout(move, 1 / speed, object,
       [from[0] + 1,from[1]], length - 1, speed, whendone);
 };
@@ -115,13 +116,15 @@ function datafrompath (path) {
 }
 
 // The whendone function takes the wagon index and the rail index.
-function movewagon (wagonidx, railidx, whendone) {
+// Give it the wagon and rail indices, a function to be run when arrived, and an
+// optional initial offset of the wagon.
+function movewagon (wagonidx, railidx, whendone, initoffset) {
   var domrail = document.getElementById('p' + railidx);
   wagons[wagonidx].railidx = railidx;
   alongsegment(wagons[wagonidx], datafrompath(domrail),
       airport.wagons[wagonidx].speed, function () {
         whendone(wagonidx, railidx);
-  });
+  }, initoffset);
 }
 
 // Stop a wagon that is running (or do nothing if it is stopped already).
@@ -129,6 +132,16 @@ function stopwagon (wagonidx) {
   var wagon = wagons[wagonidx];
   if (wagon.timeout) {
     clearTimeout(wagon.timeout);
+  }
+}
+
+// If a wagon has been stopped, it is restarted through this method
+// (which makes it start from where it stands).
+function startwagon (wagonidx) {
+  var wagon = wagons[wagonidx];
+  // Calculate the initial offset that the wagon starts with.
+  if (wagon.startagain) {
+    move.apply(undefined, wagon.startagain);
   }
 }
 
