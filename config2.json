@@ -3,17 +3,17 @@
   "debug" : 10,
   "auto" : true,
   "airport" : {
-		"globalsize" : 2,
+    "scale" : 2,
     "height" : 500,
     "width": 500,
-		"desksize" : 10,
-		"slidesize" : 10,
+    "desksize" : 10,
+    "slidesize" : 10,
     "bags" : [
-			{ "id":22, "dest":17 },
-			{ "id":31, "dest":18 },
-			{ "id":1, "dest":17 },
-			{ "id":15, "dest":19 }
-		],
+      { "id":22, "dest":17 },
+      { "id":31, "dest":18 },
+      { "id":1, "dest":17 },
+      { "id":15, "dest":19 }
+    ],
     "wagons" : [ 
       { "speed":3.14, "bags":1, "x":165, "y":45 },
       { "speed":15, "bags":0, "x":165, "y":45 },
@@ -21,15 +21,17 @@
       { "speed":200, "bags":2, "x":165, "y":45 }
     ],
     "nodes" : [
-      { "x":50,"y":75,"type":"desk" }, 
-      { "x":150,"y":75,"type":"branch" }, 
+      { "x":50,"y":75,"type":"desk" },
+      { "x":150,"y":75,"type":"branch" },
       { "x":180,"y":50,"type":"slide" }, 
+      { "x":180,"y":75,"type":"parking" },
       { "x":180,"y":100,"type":"slide" }
     ],
     "rails" : [ 
-      { "points":[0,1], "after":[1,2] },
-      { "points":[1,2], "after":[] },
-      { "points":[1,3], "after":[] }
+      { "points":[0,1] },
+      { "points":[1,2] },
+      { "points":[1,3] },
+      { "points":[1,4] }
     ]
   }  
 }
