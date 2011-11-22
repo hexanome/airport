@@ -192,7 +192,7 @@ function wagoninit() {
 }
 
 function positionwagonsatinit(wagons) {
-  console.log(wagons);
+  ///console.log(wagons);
   for (var i = 0; i < wagons.length; i++) {
     var wagon = wagons[i],
         node = airport.nodes[airport.rails[wagon.railidx].points[0]],
