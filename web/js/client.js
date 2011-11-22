@@ -69,8 +69,8 @@ $(function () {
 //
 
 function setpos (object, x, y) {
-  object.setAttribute('x', x + '');
-  object.setAttribute('y', y + '');
+  object.setAttribute('x', (x * config.globalsize) + '');
+  object.setAttribute('y', (y * config.globalsize) + '');
 }
 
 // speed is given in pixels / milliseconds.
