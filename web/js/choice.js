@@ -1,6 +1,7 @@
 
 function choice(rail,dest) {
-	return choicerec(rail,dest,{},0);
+  rail = window.config.airport.rails[rail];
+  return choicerec(rail,dest,{},0);
 }
 
 function choicerec(rail,dest,used,level){
