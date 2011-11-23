@@ -38,12 +38,13 @@ function loadconfig (config) {
   nodeinit();
 }
 
-function pushConfig(reload) {
+function pushConfig(config) {
+  console.log('pushing config');
   Scout.send(function(query){
     query.action = 'pushconfig';
-    query.data = {config: window.config};
+    query.data = {config: config || window.config};
     query.resp = function() {
-      if (reload) location.reload(true);
+      if (config) location.reload(true);
     }
   })();
 }
@@ -60,8 +61,7 @@ function load(files) {
   var file = files[0];
   var reader = new FileReader();
   reader.onload = function(e) {
-    loadconfig(JSON.parse(e.target.result));
-    pushConfig(true);
+    pushConfig(JSON.parse(e.target.result));
   }
   reader.readAsText(file);
 }
@@ -171,13 +171,17 @@ function decidewagon(wagonidefix) {
   // if no destination, find one
   if ( wagons[wagonidefix].dest.length==0 ) {
     // if bag, deliver to destination
-    if ( wagons[wagonidefix].bag ) wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx, wagons[wagonidefix].bag.dest);
-    else {
+    if ( wagons[wagonidefix].bag ) {
+      wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx, wagons[wagonidefix].bag.dest);
+      console.log(wagonidefix,'going towards destination',wagons[wagonidefix].dest);
+    } else {
       for ( var i in window.nodes ) {
         if ( window.nodes[i].bags.length > 0 ) {
           wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx,i);
+          console.log(wagonidefix,'maybe going towards desk',i,wagons[wagonidefix].dest);
           for ( var j in wagons ) {
             if ( j !== wagonidefix && wagons[j].dest[wagons[j].dest.length-1] === wagons[wagonidefix].dest[wagons[wagonidefix].dest.length-1] ) {
+              console.log(wagonidefix,'oops,',j,'is already going towards this desk');
               wagons[wagonidefix].dest = [];
             }
           }
@@ -187,10 +191,15 @@ function decidewagon(wagonidefix) {
   }
 
   // if still no destination, go back to parking
-  if ( wagons[wagonidefix].dest.length==0 ) wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx, window.parkingidx);
+  if ( wagons[wagonidefix].dest.length==0 ) {
+    wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx, window.parkingidx);
+    console.log(wagonidefix,'nothing to do, going back to parking',wagons[wagonidefix].dest);
+  }
 
-  if ( wagons[wagonidefix].dest.length==0 ) stopwagon(wagonidefix)
-  else {
+  if ( wagons[wagonidefix].dest.length==0 ) {
+    console.log(wagonidefix,'already in parking, stop there',wagons[wagonidefix].dest);
+    stopwagon(wagonidefix)
+  } else {
     movewagon(wagonidefix,wagons[wagonidefix].dest.shift(),function(){
       if (window.config.auto) decidewagon(wagonidefix);
       else asktheway(wagonidefix);

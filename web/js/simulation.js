@@ -9,9 +9,9 @@ function addBag() {
       if(bags[i].time === s) {
         console.log('adding bag',bags[i].id,'to node',bags[i].pos);
         for (var j in wagons){
-          console.log(wagons[j]);
+          //console.log(wagons[j]);
           if (config.airport.rails[wagons[j].railidx].points[config.airport.rails[wagons[j].railidx].points.length-1]===window.parkingidx) {
-            console.log('lolilolilolilolilolilolilolilol');
+            //console.log('lolilolilolilolilolilolilolilol');
             startwagon(j); 
             break;
           }
