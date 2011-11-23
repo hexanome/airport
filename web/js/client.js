@@ -191,6 +191,7 @@ function decidewagon(wagonidefix) {
 
   // compute best move towards destination
   var nextPoint = choice(wagons[wagonidefix].railidx,wagons[wagonidefix].dest);
+  console.log('moving from',wagons[wagonidefix].railidx,'to',nextPoint,'to reach',wagons[wagonidefix].dest);
   movewagon(wagonidefix,nextPoint,function(){
     if (window.config.auto) decidewagon(wagonidefix);
     else asktheway(wagonidefix);
