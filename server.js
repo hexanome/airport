@@ -19,6 +19,9 @@ function start(config) {
   // Overwrite configuration by Ajax
   camp.add('pushconfig', function(data) {
     config = data.config;
+    fs.writeFile(configfile, config, function(err) {
+      if ( err ) throw err;
+    });
     return;
   });
 
@@ -85,12 +88,11 @@ function start(config) {
 }
 
 // Main function
+var configfile = process.argv[2] || '../configfile.json';
 (function main() {
-  var config = process.argv[2] || '../config.json';
-
   console.log('starting...');
 
-  fs.readFile(config, function(err, data) {
+  fs.readFile(configfile, function(err, data) {
     if ( err ) throw err;
     start(JSON.parse(data));
   });
