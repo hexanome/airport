@@ -1,7 +1,12 @@
 
 function choice(rail,dest) {
   rail = window.config.airport.rails[rail];
-  return choicerec(rail,dest,{},0);
+	var chosen = choicerec(rail,dest,{},0);
+	for ( var i in config.airport.rails ) {
+		if ( JSON.stringify(chosen) === JSON.stringify(config.airport.rails[i]) ) {
+			return i;
+		}
+	}
 }
 
 function choicerec(rail,dest,used,level){
@@ -18,7 +23,7 @@ function choicerec(rail,dest,used,level){
 		  used[JSON.stringify(current)] = true;
 		  var ret = choicerec(current,dest,used,level+1);
 			if (ret) {
-				return (level === 0 ? i: true);
+				return (level === 0 ? current : true);
 			}
 		}
 	}

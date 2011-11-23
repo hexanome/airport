@@ -31,10 +31,22 @@ onclick="save()" rel="popover" title="Save the configuration file" data-content=
 <div class="container">
 <p>Start Point
   <select size="1" class="btn">
+    {{-desks|desk|i;
+    <option>desk number {{=i|plain}}</option>
+    }}
+    {{-treads|tread|i;
+    <option>tread number {{=i|plain}}</option>
+    }}
   <select/>
 </p>
 <p>End Point
   <select size="1" class="btn">
+    {{-slides|slide|i;
+    <option>slide number {{=i|plain}}</option>
+    }}
+    {{-carousels|carousel|i;
+    <option>carousel number {{=i|plain}}</option>
+    }}
   <select/>
 </p>
 <p><input type="button" class="btn primary" value="Add Luggage" onclick=""></p>
