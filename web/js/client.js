@@ -56,6 +56,12 @@ function setposcentered (object, x, y) {
 // Object is something of the form
 // {dom:dom element, timeout:number}.
 function move (object, from, length, speed, whendone) {
+  for (var i = 0; i < wagons.length; i++) {
+    var otherwagon = wagons[i].dom;
+    if (Math.abs((+object.dom.getAttribute('x')) - (+otherwagon.getAttribute('x'))) < 10) {
+      //alert('Collision');
+    }
+  }
   if (length <= 0) { whendone? whendone():void 0; return; }
   setposcentered(object.dom, from[0], from[1]);
   object.startagain = [object, [from[0]+1, from[1]], length-1, speed, whendone];
