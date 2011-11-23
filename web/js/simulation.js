@@ -8,6 +8,14 @@ function addBag() {
     for(var i in bags ){
       if(bags[i].time === s) {
         console.log('adding bag',bags[i].id,'to node',bags[i].pos);
+        for (var j in wagons){
+          console.log(wagons[j]);
+          if (config.airport.rails[wagons[j].railidx].points[config.airport.rails[wagons[j].railidx].points.length-1]===window.parkingidx) {
+            console.log('lolilolilolilolilolilolilolilol');
+            startwagon(j); 
+            break;
+          }
+        }
         window.nodes[bags[i].pos].bags.push(bags[i]);
         var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
         rect.setAttributeNS(null, "id", 'bag' + bags[i].id);

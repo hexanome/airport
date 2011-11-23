@@ -1,12 +1,10 @@
 
 function choice(rail,dest) {
-  rail = window.config.airport.rails[rail];
-	var chosen = choicerec(rail,dest,{},0);
-	for ( var i in config.airport.rails ) {
-		if ( JSON.stringify(chosen) === JSON.stringify(config.airport.rails[i]) ) {
-			return i;
-		}
-	}
+  domrail = window.config.airport.rails[rail];
+  var used = {}; used[JSON.stringify(domrail)] = true;
+	var ret = choicerec(domrail,dest,used,0);
+	console.log('path from',rail,'to',dest,'is',JSON.stringify(ret));
+	return (ret ? ret : []);
 }
 
 function choicerec(rail,dest,used,level){
@@ -18,12 +16,21 @@ function choicerec(rail,dest,used,level){
 		if ( !used[JSON.stringify(current)] ) {
 		  if (current.points[current.points.length-1]===dest){
 				console.log('ZOMG FOUND IT',JSON.stringify(current));
-			  return true;
+				for ( var i in config.airport.rails ) {
+					if ( JSON.stringify(current) === JSON.stringify(config.airport.rails[i]) ) {
+						return [i];
+					}
+				}
 	    }
 		  used[JSON.stringify(current)] = true;
 		  var ret = choicerec(current,dest,used,level+1);
 			if (ret) {
-				return (level === 0 ? current : true);
+				for ( var i in config.airport.rails ) {
+					if ( JSON.stringify(current) === JSON.stringify(config.airport.rails[i]) ) {
+						ret.unshift(i);
+						return ret;
+					}
+				}
 			}
 		}
 	}

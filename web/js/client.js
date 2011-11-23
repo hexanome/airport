@@ -169,16 +169,16 @@ function movewagon (wagonidx, railidx, whendone) {
 function decidewagon(wagonidefix) {
 
   // if no destination, find one
-  if ( !wagons[wagonidefix].dest ) {
+  if ( wagons[wagonidefix].dest.length==0 ) {
     // if bag, deliver to destination
-    if ( wagons[wagonidefix].bag ) destination = wagons[idefix].bag.dest;
+    if ( wagons[wagonidefix].bag ) wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx, wagons[wagonidefix].bag.dest);
     else {
       for ( var i in window.nodes ) {
         if ( window.nodes[i].bags.length > 0 ) {
-          wagons[wagonidefix].dest = i;
+          wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx,i);
           for ( var j in wagons ) {
-            if ( j !== wagonidefix && wagons[j].dest === wagons[wagonidefix].dest ) {
-              wagons[wagonidefix].dest = undefined;
+            if ( j !== wagonidefix && wagons[j].dest[wagons[j].dest.length-1] === wagons[wagonidefix].dest[wagons[wagonidefix].dest.length-1] ) {
+              wagons[wagonidefix].dest = [];
             }
           }
         }
@@ -187,15 +187,15 @@ function decidewagon(wagonidefix) {
   }
 
   // if still no destination, go back to parking
-  if ( !wagons[wagonidefix].dest ) wagons[wagonidefix].dest = window.parkingidx;
+  if ( wagons[wagonidefix].dest.length==0 ) wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx, window.parkingidx);
 
-  // compute best move towards destination
-  var nextPoint = choice(wagons[wagonidefix].railidx,wagons[wagonidefix].dest);
-  console.log('moving from',wagons[wagonidefix].railidx,'to',nextPoint,'to reach',wagons[wagonidefix].dest);
-  movewagon(wagonidefix,nextPoint,function(){
-    if (window.config.auto) decidewagon(wagonidefix);
-    else asktheway(wagonidefix);
-  });
+  if ( wagons[wagonidefix].dest.length==0 ) stopwagon(wagonidefix)
+  else {
+    movewagon(wagonidefix,wagons[wagonidefix].dest.shift(),function(){
+      if (window.config.auto) decidewagon(wagonidefix);
+      else asktheway(wagonidefix);
+    });
+  }
 }
 
 // Stop a wagon that is running (or do nothing if it is stopped already).
@@ -264,7 +264,7 @@ function wagoninit() {
           break;
         }
       }
-      wagons.push({dom:domwagons[i], railidx:railidx});
+      wagons.push({dom:domwagons[i], railidx:railidx, dest:[]});
       deskidx--;
     } else {
       // We put the wagon in the first parking lot available.
@@ -285,7 +285,7 @@ function wagoninit() {
           break;
         }
       }
-      wagons.push({dom:domwagons[i], railidx:railidx});
+      wagons.push({dom:domwagons[i], railidx:railidx, dest:[]});
     }
   }
 

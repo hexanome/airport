@@ -1,7 +1,7 @@
 {
   "port" : 80,
   "debug" : 10,
-  "auto" : false,
+  "auto" : true,
   "background": "/img/airport.png",
   "airport" : {
     "height" : 500,
@@ -26,7 +26,7 @@
 			{ "id":45, "pos":17, "dest":16, "time":8 },
 			{ "id":24, "pos":15, "dest":18, "time":11 },
 			{ "id":8, "pos":14, "dest":19, "time":26 },
-			{ "id":4, "pos":15, "dest":18, "time":20 }
+			{ "id":4, "pos":15, "dest":18, "time":50 }
 		],
     "wagons" : [ 
       { "speed":0.015, "bags":1, "x":190, "y":85 },
