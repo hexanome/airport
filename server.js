@@ -19,9 +19,9 @@ function start(config) {
   // Overwrite configuration by Ajax
   camp.add('pushconfig', function(data) {
     config = data.config;
-    fs.writeFile(configfile, config, function(err) {
+    /*fs.writeFile(configfile, config, function(err) {
       if ( err ) throw err;
-    });
+    });*/
     return;
   });
 
