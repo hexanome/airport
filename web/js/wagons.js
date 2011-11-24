@@ -1,47 +1,20 @@
+// Here, we have all functions that deal with wagon objects.
+// We can move them, decide where they go, etc.
+//
+// There are different functionnality for automatic mode and manual mode.
 
 
-// Decide where to go
-function decidewagon(wagonidefix) {
 
-  // if no destination, find one
-  if ( wagons[wagonidefix].dest.length==0 ) {
-    // if bag, deliver to destination
-    if ( wagons[wagonidefix].bag ) {
-      wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx, wagons[wagonidefix].bag.dest);
-      console.log(wagonidefix,'going towards destination',wagons[wagonidefix].dest);
-    } else {
-      for ( var i in window.nodes ) {
-        if ( window.nodes[i].bags.length > 0 ) {
-          wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx,i);
-          console.log(wagonidefix,'maybe going towards desk',i,wagons[wagonidefix].dest);
-          for ( var j in wagons ) {
-            var hisdest = wagons[j].dest[wagons[j].dest.length-1];
-            if ( j !== wagonidefix && hisdest && hisdest === wagons[wagonidefix].dest[wagons[wagonidefix].dest.length-1] ) {
-              console.log(wagonidefix,'oops,',j,'is already going towards this desk',hisdest);
-              wagons[wagonidefix].dest = [];
-            }
-          }
-        }
-      }
-    }
-  }
 
-  // if still no destination, go back to parking
-  if ( wagons[wagonidefix].dest.length==0 ) {
-    wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx, window.parkingidx);
-    console.log(wagonidefix,'nothing to do, going back to parking',wagons[wagonidefix].dest);
-  }
+// --- UI ---
+//
 
-  if ( wagons[wagonidefix].dest.length==0 ) {
-    console.log(wagonidefix,'already in parking, stop there',wagons[wagonidefix].dest);
-    stopwagon(wagonidefix)
-  } else {
-    movewagon(wagonidefix,wagons[wagonidefix].dest.shift(),function(){
-      if (window.config.auto) decidewagon(wagonidefix);
-      else asktheway(wagonidefix);
-    });
-  }
-}
+
+// This variable holds data about the position of all wagons.
+// Each element of this list holds the dom element of the wagon,
+// and the rail index in which it is currently located, like so:
+// {dom:domwagon, railidx:railidx}.
+window.wagons = [];
 
 // Stop a wagon that is running (or do nothing if it is stopped already).
 function stopwagon (wagonidx) {
@@ -60,12 +33,6 @@ function startwagon (wagonidx) {
     move.apply(undefined, wagon.startagain);
   }
 }
-
-// This variable holds data about the position of all wagons.
-// Each element of this list holds the dom element of the wagon,
-// and the rail index in which it is currently located, like so:
-// {dom:domwagon, railidx:railidx}.
-window.wagons = [];
 
 // Filling up wagons.
 // This happens as soon as I get the config file.
@@ -139,7 +106,6 @@ function wagoninit() {
 }
 
 function positionwagonsatinit(wagons) {
-  ///console.log(wagons);
   for (var i = 0; i < wagons.length; i++) {
     var wagon = wagons[i],
         node = airport.nodes[airport.rails[wagon.railidx].points[0]],
@@ -150,9 +116,57 @@ function positionwagonsatinit(wagons) {
 }
 
 
-
-// Manual mode.
+// --- Manual mode ---
 //
+
+// Decide where to go
+function decidewagon(wagonidefix) {
+
+  // if no destination, find one
+  if (wagons[wagonidefix].dest.length==0) {
+    // if bag, deliver to destination
+    if (wagons[wagonidefix].bag) {
+      wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx, wagons[wagonidefix].bag.dest);
+      console.log(wagonidefix,'going towards destination',wagons[wagonidefix].dest);
+    } else {
+      for (var i in window.nodes) {
+        if (window.nodes[i].bags.length > 0) {
+          wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx,i);
+          console.log(wagonidefix,'maybe going towards desk',i,wagons[wagonidefix].dest);
+          for (var j in wagons) {
+            var hisdest = wagons[j].dest[wagons[j].dest.length-1];
+            if (j !== wagonidefix && hisdest && hisdest === wagons[wagonidefix].dest[wagons[wagonidefix].dest.length-1]) {
+              console.log(wagonidefix,'oops,',j,'is already going towards this desk',hisdest);
+              wagons[wagonidefix].dest = [];
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // if still no destination, go back to parking
+  if (wagons[wagonidefix].dest.length==0) {
+    wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx, window.parkingidx);
+    console.log(wagonidefix,'nothing to do, going back to parking',wagons[wagonidefix].dest);
+  }
+
+  if (wagons[wagonidefix].dest.length==0) {
+    console.log(wagonidefix,'already in parking, stop there',wagons[wagonidefix].dest);
+    stopwagon(wagonidefix)
+  } else {
+    movewagon(wagonidefix,wagons[wagonidefix].dest.shift(),function(){
+      if (window.config.auto) decidewagon(wagonidefix);
+      else asktheway(wagonidefix);
+    });
+  }
+}
+
+
+
+// --- Manual mode ---
+//
+// The following functions handle the movements of wagons in manual mode.
 
 // This creates a triangle and puts it at coordinates (x,y), given a choice id,
 // and hooks it up to the function `choosepath`.
@@ -204,7 +218,6 @@ function asktheway (wagonidx) {
       possibilities = railbranches(confnodeidx),
       possiblerailidx = possibilities[0],
       possiblerails = possibilities[1];
-  //console.log(possiblerails);
 
   for (var i = 0; i < possiblerails.length; i++) {
     var rail = possiblerails[i];
@@ -226,7 +239,6 @@ function asktheway (wagonidx) {
 }
 
 function choosewagonpath (wagonidx, railidx) {
-  ///console.log('CHOSEN: wagon', wagonidx,'and rail',railidx);
   destroytriangles(wagonidx);
   movewagon(wagonidx, railidx, function () {
     if (!config.auto) {

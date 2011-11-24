@@ -1,25 +1,28 @@
-
 // Getting and updating the configuration file.
 //
 
+// When the page is loaded, we fetch the configuration data.
+addEventListener('load', pullConfig, false);
+
+// This function performs an Ajax call through which we obtain all configuration
+// information.
 function pullConfig() {
   Scout.send(function(query) {
     query.action = 'pullconfig';
     query.data = {lol:'bidon'};
+    // The following gets run once we obtain the configuration.
     query.resp = function(config) {
       console.log('received config');
-      loadconfig(config);
+      window.config = config;
+      window.airport = config.airport;
+      wagoninit();
+      nodeinit();
     }
   })();
 }
 
-function loadconfig (config) {
-  window.config = config;
-  window.airport = config.airport;
-  wagoninit();
-  nodeinit();
-}
-
+// The reverse operation of `pullConfig`, updating the configuration on the
+// server, is performed by the following function.
 function pushConfig(config) {
   console.log('pushing config');
   Scout.send(function(query){
@@ -31,10 +34,8 @@ function pushConfig(config) {
   })();
 }
 
-addEventListener('load', function() {
-  pullConfig();
-}, false);
-
+// We let the user save the configuration on its computer by opening that file
+// (either it downloads automatically, or it shows up in a new window).
 function save() {
   window.open('/config.json','Save As','height=400,width=400');
 }

@@ -58,20 +58,22 @@ function start(config) {
         carousels = {},
         garages = {};
     for (var i in config.airport.nodes){
-      if (config.airport.nodes[i].type === "desk") {
-        desks[i] = config.airport.nodes[i];
-      }  
-      if (config.airport.nodes[i].type === "slide") {
-        slides[i] = config.airport.nodes[i];
-      }
-      if (config.airport.nodes[i].type === "tread") {
-        treads[i] = config.airport.nodes[i];
-      }
-      if (config.airport.nodes[i].type === "carousel") {
-        carousels[i] = config.airport.nodes[i];
-      }
-      if (config.airport.nodes[i].type === "garage") {
-        garages[i] = config.airport.nodes[i];
+      switch (config.airport.nodes[i].type) {
+        case 'desk':
+          desks[i] = config.airport.nodes[i];
+          break;
+        case 'slide':
+          slides[i] = config.airport.nodes[i];
+          break;
+        case 'tread':
+          treads[i] = config.airport.nodes[i];
+          break;
+        case 'carousel':
+          carousels[i] = config.airport.nodes[i];
+          break;
+        case 'garage':
+          garages[i] = config.airport.nodes[i];
+          break;
       }
     }
     
@@ -92,6 +94,11 @@ function start(config) {
   // template.
   camp.handle(/^\/index.html$/, handleindex);
   camp.handle(/^\/$/, handleindex);
+
+  // Download the JSON configuration file.
+  camp.handle('/config.json', function(query, path) {
+    return {content: JSON.stringify(config, null, 2)};
+  });
 
   // Finally start the server
   camp.start(config.port || 80, config.debug || 0);
