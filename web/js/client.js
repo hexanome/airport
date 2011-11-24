@@ -4,12 +4,18 @@
 
 // Starting up
 //
+// Wee need to load the configuration data from the server at startup time.
 
 function start() {
-  if ( window.config.auto ) addBag();
-  for ( var i in window.wagons ) {
-    if (window.config.auto) decidewagon(i);
-    else asktheway(i);
+  if (window.config.auto) {
+    addBag();
+  }
+  for (var i in window.wagons) {
+    if (window.config.auto) {
+      decidewagon(i);
+    } else {
+      asktheway(i);
+    }
   }
 }
 
@@ -19,6 +25,8 @@ setTimeout(start,1000);
 
 // GUI.
 //
+// Actually, this is all about popovers in the page.
+// It uses JQuery.
 
 $(function () {
   $("input[rel=popover]")
@@ -40,6 +48,7 @@ $(function () {
 
 // Wagon movements (UI primitives).
 //
+// The basic idea is to change the x and y coordinates of the wagons.
 
 function setpos (object, x, y) {
   object.setAttribute('x', x + '');

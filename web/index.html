@@ -1,123 +1,148 @@
 <!doctype html>
-<meta charset=utf8>
-<title>Airport</title>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Airport</title>
+    <link rel="stylesheet" href="./css/style.css"/>
+    <style>
+      svg { background: url("{{=background|plain}}"); }
+    </style>
+  </head>
 
+  <body>
+
+<!-- The following div has only aesthetical value. -->
 <div class="topbar">
   <div class="fill">
     <div class="container">
-    <a class="brand" href="#"><img src="./img/logo.png"></a>
-    <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Account</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
+      <a class="brand" href="#"><img src="./img/logo.png" alt="SGBag"></a>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Account</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
     </div>
   </div>
 </div>
 
-<br>
+<br/>
 
+<!-- On the other hand, this div contains configuration controls. -->
 <div class="container">
-<p>Mode <select class="btn" onchange="changeMode(this.options[this.selectedIndex].innerHTML==='auto')">
-  <option {{?auto|selected}}>auto</option>
-  <option {{?!auto|selected}}>manuel</option>
-</select></p>
-<p>Save <input type=button class="btn primary" value=config.json
-onclick="save()" rel="popover" title="Save the configuration file" data-content="Opens the current config.json in a window for you to save."></p>
-<p>Load <input type=file id=file onchange="load(this.files)"></p>
+  <p>Mode
+    <select class="btn"
+      onchange="changeMode(this.options[this.selectedIndex].innerHTML==='auto')">
+      <option {{?auto|selected}}>auto</option>
+      <option {{?!auto|selected}}>manuel</option>
+    </select>
+  </p>
+  <p>Save <input type="button" class="btn primary" value="config.json"
+    onclick="save()" rel="popover" title="Save the configuration file"
+    data-content="Opens the current config.json in a window for you to save.">
+  </p>
+  <p>Load <input type="file" id="file" onchange="load(this.files)"/></p>
 </div>
 
-<br>
+<br/>
+
+<!-- This div contains controls to interact with luggage. -->
 <div class="container">
-<p>Start Point
-  <select size="1" class="btn" id=startPoint>
+  <p>Start Point
+    <select size="1" class="btn" id="startPoint">
+      {{-desks|desk|i;
+      <option value="{{=i|plain}}">desk number {{=i|plain}}</option>
+      }}
+      {{-treads|tread|i;
+      <option value="{{=i|plain}}">tread number {{=i|plain}}</option>
+      }}
+    </select>
+  </p>
+  <p>End Point
+    <select size="1" class="btn" id="endPoint">
+      {{-slides|slide|i;
+      <option value="{{=i|plain}}">slide number {{=i|plain}}</option>
+      }}
+      {{-carousels|carousel|i;
+      <option value="{{=i|plain}}">carousel number {{=i|plain}}</option>
+      }}
+    </select>
+  </p>
+  <p>
+    <input type="button" class="btn primary" value="Add Luggage"
+      onclick="addLuggage()">
+  </p>
+</div>
+
+<!-- This div contains the SVG element. -->
+<div class="container">
+  <svg height={{=airport.height|integer}} width={{=airport.width|integer}}
+    viewBox="0 0 {{=airport.height/airport.scale|integer}} {{#
+    }}{{=airport.width/airport.scale|integer}}">
+    {{-garages|garage|i;
+      <rect id="garage"
+          x="{{=garage.x - 10|integer}}"
+          y="{{=garage.y - 10|integer}}"
+          width="20" height="20"
+          fill="pink"></rect>
+    }}
+    {{-airport.wagons|wagon|i;
+      <rect id="wagon{{=i|plain}}" 
+          x="{{=wagon.x - 7|integer}}" 
+          y="{{=wagon.y - 5|integer}}" 
+          width="15" height="10" fill="green"></rect>
+    }}
+    {{-airport.rails|rail|i;
+      <path id="p{{=i|plain}}" d="{{lrail}}" fill="rgba(0,0,0,0)"
+        stroke="black"/>
+    }}    
     {{-desks|desk|i;
-    <option value="{{=i|plain}}">desk number {{=i|plain}}</option>
+      <rect id="desk{{=i|plain}}" onclick="test()" class="btn"
+            x="{{=desk.x - airport.desksize/2|integer}}"
+            y="{{=desk.y - airport.desksize/2|integer}}"
+            width="{{=airport.desksize|integer}}"
+            height="{{=airport.desksize|integer}}"
+            fill="red"></rect>
+    }}
+    {{-slides|slide|i;
+      <rect id="slide{{=i|plain}}" onclick="test()" class="btn"
+          x="{{=slide.x - airport.slidesize/2|integer}}"
+          y="{{=slide.y - airport.slidesize/2|integer}}"
+          width="{{=airport.slidesize|integer}}"
+          height="{{=airport.slidesize|integer}}"
+          fill="blue"></rect>
     }}
     {{-treads|tread|i;
-    <option value="{{=i|plain}}">tread number {{=i|plain}}</option>
+        <rect id="tread{{=i|plain}}" onclick="test()" class="btn"
+            x="{{=tread.x - airport.treadsize/2|integer}}"
+            y="{{=tread.y - airport.treadsize/2|integer}}"
+            width="{{=airport.treadsize|integer}}"
+            height="{{=airport.treadsize|integer}}"
+            fill="yellow"></rect>
     }}
-  <select/>
-</p>
-<p>End Point
-  <select size="1" class="btn" id=endPoint>
-    {{-slides|slide|i;
-    <option value="{{=i|plain}}">slide number {{=i|plain}}</option>
+    {{-carousels|carousel|i; 
+        <rect id="carousel{{=i|plain}}" onclick="test()" class="btn"
+            x="{{=carousel.x - airport.carouselsize/2|integer}}"
+            y="{{=carousel.y - airport.carouselsize/2|integer}}"
+            width="{{=airport.carouselsize|integer}}"
+            height="{{=airport.carouselsize|integer}}"
+            fill="black"></rect>
     }}
-    {{-carousels|carousel|i;
-    <option value="{{=i|plain}}">carousel number {{=i|plain}}</option>
-    }}
-  <select/>
-</p>
-<p><input type="button" class="btn primary" value="Add Luggage" onclick="addLuggage()"></p>
-</div>
-<div class="container">
-<svg height={{=airport.height|integer}} width={{=airport.width|integer}} viewBox="0 0 {{=airport.height/airport.scale|integer}} {{=airport.width/airport.scale|integer}}">
-	{{-garages|garage|i;
-		<rect id="garage"
-			x="{{=garage.x - 10|integer}}"
-			y="{{=garage.y - 10|integer}}"
-      width="20" height="20"
-      fill="pink"></rect>
-	}}
-  {{-airport.wagons|wagon|i;
-		<rect id="wagon{{=i|plain}}" 
-			x="{{=wagon.x - 7|integer}}" 
-			y="{{=wagon.y - 5|integer}}" 
-			width="15" height="10" fill="green"></rect>
-  }}
-  {{-airport.rails|rail|i;
-    <path id="p{{=i|plain}}" d="{{lrail}}" fill="rgba(0,0,0,0)"
-      stroke="black"/>
-  }}    
-  {{-desks|desk|i;
-    <rect id="desk{{=i|plain}}" onclick="test()" class="btn"
-			x="{{=desk.x - airport.desksize/2|integer}}"
-	 	  y="{{=desk.y - airport.desksize/2|integer}}"
-      width="{{=airport.desksize|integer}}" height="{{=airport.desksize|integer}}"
-      fill="red"></rect>
-  }}
-  {{-slides|slide|i;
-		<rect id="slide{{=i|plain}}" onclick="test()" class="btn"
-			x="{{=slide.x - airport.slidesize/2|integer}}"
-			y="{{=slide.y - airport.slidesize/2|integer}}"
-      width="{{=airport.slidesize|integer}}" height="{{=airport.slidesize|integer}}"
-      fill="blue"></rect>
-  }}
-	{{-treads|tread|i;
-		<rect id="tread{{=i|plain}}" onclick="test()" class="btn"
-			x="{{=tread.x - airport.treadsize/2|integer}}"
-			y="{{=tread.y - airport.treadsize/2|integer}}"
-      width="{{=airport.treadsize|integer}}" height="{{=airport.treadsize|integer}}"
-      fill="yellow"></rect>
-	}}
-	{{-carousels|carousel|i; 
-		<rect id="carousel{{=i|plain}}" onclick="test()" class="btn"
-			x="{{=carousel.x - airport.carouselsize/2|integer}}"
-			y="{{=carousel.y - airport.carouselsize/2|integer}}"
-      width="{{=airport.carouselsize|integer}}" height="{{=airport.carouselsize|integer}}"
-      fill="black"></rect>
-	}}
-</svg>
+  </svg>
 </div>
 
-<style>
-  svg {
-    background: url("{{=background|plain}}");
-  }
-</style>
-
-<link rel="stylesheet" href="./css/style.css">
-<script src=./js/jquery-1.6.2.min.js></script>
-<script src=./js/jquery-ui-1.8.16.custom.min.js></script>
-<script src=./js/bootstrap-twipsy.js></script>
-<script src=./js/bootstrap-popover.js></script>
-<script src=./js/scout.js></script>
+<script src="./js/jquery-1.6.2.min.js"></script>
+<script src="./js/jquery-ui-1.8.16.custom.min.js"></script>
+<script src="./js/bootstrap-twipsy.js"></script>
+<script src="./js/bootstrap-popover.js"></script>
+<script src="./js/scout.js"></script>
 
 <!-- Airport packages -->
-<script src=./js/client.js></script>
-<script src=./js/configuration.js></script>
-<script src=./js/wagons.js></script>
-<script src=./js/airport.js></script>
-<script src=./js/simulation.js></script>
-<script src=./js/choice.js></script>
+<script src="./js/client.js"></script>
+<script src="./js/configuration.js"></script>
+<script src="./js/wagons.js"></script>
+<script src="./js/airport.js"></script>
+<script src="./js/simulation.js"></script>
+<script src="./js/choice.js"></script>
+
+  </body>
+</html>
