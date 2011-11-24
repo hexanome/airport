@@ -96,7 +96,7 @@
         stroke="black"/>
     }}    
     {{-desks|desk|i;
-      <rect id="desk{{=i|plain}}" onclick="test()" class="btn"
+      <rect id="desk{{=i|plain}}" onclick="chooseStartPoint('{{=i|plain}}')" class="btn"
             x="{{=desk.x - airport.desksize/2|integer}}"
             y="{{=desk.y - airport.desksize/2|integer}}"
             width="{{=airport.desksize|integer}}"
@@ -104,7 +104,7 @@
             fill="red"></rect>
     }}
     {{-slides|slide|i;
-      <rect id="slide{{=i|plain}}" onclick="test()" class="btn"
+      <rect id="slide{{=i|plain}}" onclick="chooseEndPoint('{{=i|plain}}')" class="btn"
           x="{{=slide.x - airport.slidesize/2|integer}}"
           y="{{=slide.y - airport.slidesize/2|integer}}"
           width="{{=airport.slidesize|integer}}"
@@ -112,7 +112,7 @@
           fill="blue"></rect>
     }}
     {{-treads|tread|i;
-        <rect id="tread{{=i|plain}}" onclick="test()" class="btn"
+        <rect id="tread{{=i|plain}}" onclick="chooseStartPoint('{{=i|plain}}')" class="btn"
             x="{{=tread.x - airport.treadsize/2|integer}}"
             y="{{=tread.y - airport.treadsize/2|integer}}"
             width="{{=airport.treadsize|integer}}"
@@ -120,7 +120,7 @@
             fill="yellow"></rect>
     }}
     {{-carousels|carousel|i; 
-        <rect id="carousel{{=i|plain}}" onclick="test()" class="btn"
+        <rect id="carousel{{=i|plain}}" onclick="chooseEndPoint('{{=i|plain}}')" class="btn"
             x="{{=carousel.x - airport.carouselsize/2|integer}}"
             y="{{=carousel.y - airport.carouselsize/2|integer}}"
             width="{{=airport.carouselsize|integer}}"

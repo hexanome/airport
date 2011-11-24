@@ -33,6 +33,19 @@ function addBag() {
   }
 };
 
+
+// Choose starting point for new luggage
+function chooseStartPoint(point) {
+  var select = document.getElementById('startPoint');
+  select.value = point;
+}
+
+// Choose destination for new luggage
+function chooseEndPoint(point) {
+  var select = document.getElementById('endPoint');
+  select.value = point;
+}
+
 var id = 100;
 
 // Manually add luggage
