@@ -142,7 +142,7 @@ function baginit() {
 function decidewagon(wagonidefix) {
   var wagon = wagons[wagonidefix];
   if (wagonidefix == 1) {
-    wagon.dom.setAttribute('fill', 'red');
+    //wagon.dom.setAttribute('fill', 'red');
     console.log('wagon', wagonidefix, 'gets decided',
         'dest', wagon.dest,'current rail', wagon.railidx);
   }
