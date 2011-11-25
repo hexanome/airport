@@ -91,6 +91,7 @@ function datafrompath (path) {
 // The whendone function takes the wagon index and the rail index.
 // Give it the wagon and rail indices, anda function to be run when arrived.
 function movewagon (wagonidx, railidx, whendone) {
+  if (wagonidx == 1) console.log('MOVEWAGON');
   whendone = whendone || function(){};
   var domrail = document.getElementById('p' + railidx);
   wagons[wagonidx].railidx = railidx;

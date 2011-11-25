@@ -119,6 +119,7 @@ function positionwagonsatinit(wagons) {
 function movewagons() {
   for (var i in window.wagons) {
     if (window.config.auto) {
+      console.log('MOVEWAGONS');
       decidewagon(i);
     } else {
       asktheway(i);
@@ -134,28 +135,34 @@ function baginit() {
   }
 }
 
-// --- Manual mode ---
+// --- Automatic mode ---
 //
 
 // Decide where to go
 function decidewagon(wagonidefix) {
+  var wagon = wagons[wagonidefix];
+  if (wagonidefix == 1) {
+    wagon.dom.setAttribute('fill', 'red');
+    console.log('wagon', wagonidefix, 'gets decided',
+        'dest', wagon.dest,'current rail', wagon.railidx);
+  }
 
   // if no destination, find one
-  if (wagons[wagonidefix].dest.length==0) {
+  if (wagon.dest.length == 0) {
     // if bag, deliver to destination
-    if (wagons[wagonidefix].bag) {
-      wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx, wagons[wagonidefix].bag.dest);
-      console.log(wagonidefix,'going towards destination',wagons[wagonidefix].dest);
+    if (wagon.bag) {
+      wagon.dest = choice(wagon.railidx, wagon.bag.dest);
+      //console.log(wagonidefix,'going towards destination',wagon.dest);
     } else {
       for (var i in window.nodes) {
         if (window.nodes[i].bags.length > 0) {
-          wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx,i);
-          console.log(wagonidefix,'maybe going towards desk',i,wagons[wagonidefix].dest);
+          wagon.dest = choice(wagon.railidx,i);
+          //console.log(wagonidefix,'maybe going towards desk',i,wagon.dest);
           for (var j in wagons) {
             var hisdest = wagons[j].dest[wagons[j].dest.length-1];
-            if (j !== wagonidefix && hisdest && hisdest === wagons[wagonidefix].dest[wagons[wagonidefix].dest.length-1]) {
-              console.log(wagonidefix,'oops,',j,'is already going towards this desk',hisdest);
-              wagons[wagonidefix].dest = [];
+            if (j !== wagonidefix && hisdest && hisdest === wagon.dest[wagon.dest.length-1]) {
+              //console.log(wagonidefix,'oops,',j,'is already going towards this desk',hisdest);
+              wagon.dest = [];
             }
           }
         }
@@ -164,18 +171,22 @@ function decidewagon(wagonidefix) {
   }
 
   // if still no destination, go back to parking
-  if (wagons[wagonidefix].dest.length==0) {
-    wagons[wagonidefix].dest = choice(wagons[wagonidefix].railidx, window.parkingidx);
-    console.log(wagonidefix,'nothing to do, going back to parking',wagons[wagonidefix].dest);
+  if (wagon.dest.length == 0) {
+    wagon.dest = choice(wagon.railidx, window.parkingidx);
+    //console.log(wagonidefix,'nothing to do, going back to parking',wagon.dest);
   }
 
-  if (wagons[wagonidefix].dest.length==0) {
-    console.log(wagonidefix,'already in parking, stop there',wagons[wagonidefix].dest);
-    stopwagon(wagonidefix)
+  if (wagon.dest.length == 0) {
+    //console.log(wagonidefix,'already in parking, stop there',wagon.dest);
+    stopwagon(wagonidefix);
   } else {
-    movewagon(wagonidefix,wagons[wagonidefix].dest.shift(),function(){
-      if (window.config.auto) decidewagon(wagonidefix);
-      else asktheway(wagonidefix);
+    movewagon(wagonidefix, wagon.dest.shift(), function(wagonidx, railidx) {
+      if (window.config.auto) {
+        console.log('DECIDEWAGON');
+        decidewagon(wagonidx);
+      } else {
+        asktheway(wagonidx);
+      }
     });
   }
 }
@@ -273,7 +284,10 @@ function choosewagonpath (wagonidx, railidx) {
       } else {
         asktheway(wagonidx);
       }
-    } else decidewagon(wagonidx);
+    } else {
+      console.log('CHOOSEWAGONPATH');
+      decidewagon(wagonidx);
+    }
   });
 }
 

@@ -12,7 +12,6 @@ function pullConfig() {
     query.data = {lol:'bidon'};
     // The following gets run once we obtain the configuration.
     query.resp = function(config) {
-      console.log('received config');
       window.config = config;
       window.airport = config.airport;
       nodeinit();
@@ -26,7 +25,6 @@ function pullConfig() {
 // The reverse operation of `pullConfig`, updating the configuration on the
 // server, is performed by the following function.
 function pushConfig(config) {
-  console.log('pushing config');
   Scout.send(function(query){
     query.action = 'pushconfig';
     query.data = {config: config || window.config};
