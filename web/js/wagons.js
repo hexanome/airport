@@ -103,6 +103,7 @@ function wagoninit() {
 
   // Put every wagon at its rightful place.
   positionwagonsatinit(wagons);
+  movewagons();
 }
 
 function positionwagonsatinit(wagons) {
@@ -115,6 +116,23 @@ function positionwagonsatinit(wagons) {
   }
 }
 
+function movewagons() {
+  for (var i in window.wagons) {
+    if (window.config.auto) {
+      decidewagon(i);
+    } else {
+      asktheway(i);
+    }
+  }
+}
+
+// Luggage must also be initialized.
+// The following procedure adds the luggage in the configuration file.
+function baginit() {
+  if (window.config.auto) {
+    addBag();
+  }
+}
 
 // --- Manual mode ---
 //

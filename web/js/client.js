@@ -2,25 +2,6 @@
 
 
 
-// Starting up
-//
-// Wee need to load the configuration data from the server at startup time.
-
-function start() {
-  if (window.config.auto) {
-    addBag();
-  }
-  for (var i in window.wagons) {
-    if (window.config.auto) {
-      decidewagon(i);
-    } else {
-      asktheway(i);
-    }
-  }
-}
-
-setTimeout(start,1000);
-
 
 
 // GUI.
